@@ -1,0 +1,22 @@
+{
+	"BUILD_DIR" : "C:/Users/LENOVO/Documents/RRT_2/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/RRT_2_autogen",
+	"CMAKE_BINARY_DIR" : "C:/Users/LENOVO/Documents/RRT_2/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "C:/Users/LENOVO/Documents/RRT_2/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug",
+	"CMAKE_CURRENT_SOURCE_DIR" : "C:/Users/LENOVO/Documents/RRT_2",
+	"CMAKE_SOURCE_DIR" : "C:/Users/LENOVO/Documents/RRT_2",
+	"CROSS_CONFIG" : false,
+	"GENERATOR" : "Ninja",
+	"INCLUDE_DIR" : "C:/Users/LENOVO/Documents/RRT_2/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/RRT_2_autogen/include",
+	"INPUTS" : [],
+	"LOCK_FILE" : "C:/Users/LENOVO/Documents/RRT_2/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/CMakeFiles/RRT_2_autogen.dir/AutoRcc_resourceIMG_EWIEGA46WW_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "--no-zstd", "-name", "resourceIMG" ],
+	"OUTPUT_CHECKSUM" : "EWIEGA46WW",
+	"OUTPUT_NAME" : "qrc_resourceIMG.cpp",
+	"RCC_EXECUTABLE" : "C:/Qt/6.8.0/mingw_64/bin/rcc.exe",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "C:/Users/LENOVO/Documents/RRT_2/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/CMakeFiles/RRT_2_autogen.dir/AutoRcc_resourceIMG_EWIEGA46WW_Used.txt",
+	"SOURCE" : "C:/Users/LENOVO/Documents/RRT_2/resourceIMG.qrc",
+	"USE_BETTER_GRAPH" : true,
+	"VERBOSITY" : 0
+}

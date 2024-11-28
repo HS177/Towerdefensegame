@@ -75,13 +75,13 @@
 			{
 				"command" : 4,
 				"file" : 1,
-				"line" : 70,
+				"line" : 71,
 				"parent" : 0
 			},
 			{
 				"command" : 5,
 				"file" : 1,
-				"line" : 53,
+				"line" : 54,
 				"parent" : 0
 			},
 			{
@@ -367,18 +367,19 @@
 				2,
 				5,
 				7,
-				10
+				10,
+				15
 			]
 		}
 	],
 	"dependencies" : 
 	[
 		{
-			"backtrace" : 0,
-			"id" : "RRT_2_autogen::@6890427a1f51a3e7e1df"
+			"id" : "RRT_2_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
 		},
 		{
-			"id" : "RRT_2_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
+			"backtrace" : 0,
+			"id" : "RRT_2_autogen::@6890427a1f51a3e7e1df"
 		}
 	],
 	"id" : "RRT_2::@6890427a1f51a3e7e1df",
@@ -493,7 +494,8 @@
 				2,
 				5,
 				7,
-				10
+				10,
+				15
 			]
 		},
 		{
@@ -505,7 +507,7 @@
 				8,
 				9,
 				11,
-				12
+				13
 			]
 		},
 		{
@@ -513,14 +515,16 @@
 			"sourceIndexes" : 
 			[
 				4,
-				13
+				12,
+				14
 			]
 		},
 		{
 			"name" : "CMake Rules",
 			"sourceIndexes" : 
 			[
-				14
+				16,
+				17
 			]
 		}
 	],
@@ -594,6 +598,11 @@
 			"sourceGroupIndex" : 1
 		},
 		{
+			"backtrace" : 4,
+			"path" : "resourceIMG.qrc",
+			"sourceGroupIndex" : 2
+		},
+		{
 			"backtrace" : 0,
 			"isGenerated" : true,
 			"path" : "build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/RRT_2_autogen/include/ui_mainwindow.h",
@@ -607,8 +616,21 @@
 		},
 		{
 			"backtrace" : 0,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/RRT_2_autogen/EWIEGA46WW/qrc_resourceIMG.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
 			"isGenerated" : true,
 			"path" : "build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/RRT_2_autogen/timestamp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/RRT_2_autogen/EWIEGA46WW/qrc_resourceIMG.cpp.rule",
 			"sourceGroupIndex" : 3
 		}
 	],

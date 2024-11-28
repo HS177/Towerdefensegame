@@ -7,7 +7,7 @@
 	"CROSS_CONFIG" : false,
 	"GENERATOR" : "Ninja",
 	"INCLUDE_DIR" : "C:/Users/LENOVO/Documents/RRT_2/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/RRT_2_autogen/include",
-	"INPUTS" : [],
+	"INPUTS" : [ "C:/Users/LENOVO/Documents/RRT_2/images.jpg" ],
 	"LOCK_FILE" : "C:/Users/LENOVO/Documents/RRT_2/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/CMakeFiles/RRT_2_autogen.dir/AutoRcc_resourceIMG_EWIEGA46WW_Lock.lock",
 	"MULTI_CONFIG" : false,
 	"OPTIONS" : [ "--no-zstd", "-name", "resourceIMG" ],

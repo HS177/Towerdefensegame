@@ -11,6 +11,7 @@
 #include <QPropertyAnimation>
 #include <QEvent>
 #include <QEnterEvent>
+#include "mainwindow.h"
 #include"Gamemap.h"
 #include "Enemy.h"
 
@@ -128,11 +129,11 @@ signals:
 
 private slots:
     void onStartButtonClicked() {
-        GameMap *gamemap = new GameMap();
+        MainWindow *gamemap = new MainWindow();
 
-        gamemap->initialize();
+        //gamemap->initialize();
         gamemap->show();
-        gamemap->spawnEnemy();
+        //gamemap->spawnEnemy();
 
         this->close();
         qDebug("Start Game!");

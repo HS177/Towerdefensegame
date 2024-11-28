@@ -1,5 +1,6 @@
 #include "mainmenu.h"
 #include "mainwindow.h"
+#include "Gamemap.h"
 #include "./ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)

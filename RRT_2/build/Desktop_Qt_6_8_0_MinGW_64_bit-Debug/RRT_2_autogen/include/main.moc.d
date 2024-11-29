@@ -154,7 +154,10 @@ C:/Users/LENOVO/Documents/RRT_2/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/RRT_2_
   C:/Qt/6.8.0/mingw_64/include/QtGui/QColor \
   C:/Qt/6.8.0/mingw_64/include/QtGui/QEnterEvent \
   C:/Qt/6.8.0/mingw_64/include/QtGui/QMouseEvent \
+  C:/Qt/6.8.0/mingw_64/include/QtGui/QPalette \
   C:/Qt/6.8.0/mingw_64/include/QtGui/QPen \
+  C:/Qt/6.8.0/mingw_64/include/QtGui/QPixmap \
+  C:/Qt/6.8.0/mingw_64/include/QtGui/QResizeEvent \
   C:/Qt/6.8.0/mingw_64/include/QtGui/QTransform \
   C:/Qt/6.8.0/mingw_64/include/QtGui/qaction.h \
   C:/Qt/6.8.0/mingw_64/include/QtGui/qbitmap.h \

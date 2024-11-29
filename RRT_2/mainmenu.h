@@ -11,19 +11,24 @@
 #include <QPropertyAnimation>
 #include <QEvent>
 #include <QEnterEvent>
-#include "mainwindow.h"
 #include"Gamemap.h"
 #include "Enemy.h"
+
+#include <QResizeEvent>
+#include <QPalette>
+#include <QPixmap>
 
 class BouncingButton : public QPushButton
 {
     Q_OBJECT
 
 public:
+
     BouncingButton(const QString &text, QWidget *parent = nullptr) : QPushButton(text, parent)
     {
 
         setStyleSheet(R"(
+
             QPushButton {
                 color: white;
                 font-size: 20px;
@@ -44,6 +49,7 @@ public:
                 border-color: #DAA520;
                 box-shadow: inset 0px 3px 6px rgba(0, 0, 0, 0.5);
             }
+
         )");
 
 
@@ -83,14 +89,13 @@ private:
 
 };
 
-class MainMenu : public QWidget
-{
+
+
+class MainMenu : public QWidget {
     Q_OBJECT
 
 public:
-    MainMenu(QWidget *parent = nullptr) : QWidget(parent)
-    {
-
+    MainMenu(QWidget *parent = nullptr) : QWidget(parent) {
         QVBoxLayout *layout = new QVBoxLayout(this);
 
 
@@ -124,26 +129,44 @@ public:
         setLayout(layout);
     }
 
-signals:
-    void startGame();
+protected:
+
+    void resizeEvent(QResizeEvent *event) override {
+        QWidget::resizeEvent(event);
+        updateBackground();
+    }
+
+private:
+    void updateBackground() {
+
+        QPixmap background(":/new/prefix2/back4.jpg");
+
+
+        QPixmap scaledBackground = background.scaled(this->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+
+        QPalette palette;
+        palette.setBrush(this->backgroundRole(), QBrush(scaledBackground));
+        this->setPalette(palette);
+        this->setAutoFillBackground(true);
+    }
 
 private slots:
     void onStartButtonClicked() {
-        MainWindow *gamemap = new MainWindow();
+        GameMap *gamemap = new GameMap();
 
-        //gamemap->initialize();
+        gamemap->initialize();
         gamemap->show();
-        //gamemap->spawnEnemy();
+        gamemap->spawnEnemy();
 
         this->close();
         qDebug("Start Game!");
     }
 
-    void onExitButtonClicked()
-    {
+    void onExitButtonClicked() {
         qDebug("Exit Game!");
         QApplication::quit();
     }
 };
+
 
 #endif

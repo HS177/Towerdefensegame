@@ -8,11 +8,12 @@
 #include <QTimer>
 #include <QPropertyAnimation>
 #include <QSequentialAnimationGroup>
+#include <QGraphicsPixmapItem>
 
 
 
 
-class EnemyA : public QObject, public QGraphicsEllipseItem {
+class EnemyA : public QObject,public QGraphicsPixmapItem {
     Q_OBJECT
 
 public:
@@ -59,16 +60,5 @@ private:
     void setupPath();
 };
 
-/*class Agent {
-public:
-    // Constructor to initialize the agent with a color
-    Agent(QColor color) : color(color) {}
 
-    // Getter for the color of the agent
-    QColor getColor() const { return color; }
-
-private:
-    QColor color;  // Color of the agent
-};
-*/
 #endif

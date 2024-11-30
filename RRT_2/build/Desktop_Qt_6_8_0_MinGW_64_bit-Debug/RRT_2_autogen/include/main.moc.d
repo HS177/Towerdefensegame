@@ -154,7 +154,10 @@ C:/Users/LENOVO/Documents/RRT_2/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/RRT_2_
   C:/Qt/6.8.0/mingw_64/include/QtGui/QColor \
   C:/Qt/6.8.0/mingw_64/include/QtGui/QEnterEvent \
   C:/Qt/6.8.0/mingw_64/include/QtGui/QMouseEvent \
+  C:/Qt/6.8.0/mingw_64/include/QtGui/QPalette \
   C:/Qt/6.8.0/mingw_64/include/QtGui/QPen \
+  C:/Qt/6.8.0/mingw_64/include/QtGui/QPixmap \
+  C:/Qt/6.8.0/mingw_64/include/QtGui/QResizeEvent \
   C:/Qt/6.8.0/mingw_64/include/QtGui/QTransform \
   C:/Qt/6.8.0/mingw_64/include/QtGui/qaction.h \
   C:/Qt/6.8.0/mingw_64/include/QtGui/qbitmap.h \
@@ -200,11 +203,11 @@ C:/Users/LENOVO/Documents/RRT_2/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/RRT_2_
   C:/Qt/6.8.0/mingw_64/include/QtGui/qwindowdefs_win.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/QApplication \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/QGraphicsEllipseItem \
+  C:/Qt/6.8.0/mingw_64/include/QtWidgets/QGraphicsPixmapItem \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/QGraphicsRectItem \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/QGraphicsScene \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/QGraphicsView \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/QLabel \
-  C:/Qt/6.8.0/mingw_64/include/QtWidgets/QMainWindow \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/QMessageBox \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/QPushButton \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/QVBoxLayout \
@@ -223,12 +226,10 @@ C:/Users/LENOVO/Documents/RRT_2/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/RRT_2_
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qlabel.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qlayout.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qlayoutitem.h \
-  C:/Qt/6.8.0/mingw_64/include/QtWidgets/qmainwindow.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qmessagebox.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qpushbutton.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qscrollarea.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qsizepolicy.h \
-  C:/Qt/6.8.0/mingw_64/include/QtWidgets/qtabwidget.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qtwidgets-config.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qtwidgetsexports.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -442,5 +443,4 @@ C:/Users/LENOVO/Documents/RRT_2/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/RRT_2_
   C:/Users/LENOVO/Documents/RRT_2/Agent.h \
   C:/Users/LENOVO/Documents/RRT_2/Enemy.h \
   C:/Users/LENOVO/Documents/RRT_2/Gamemap.h \
-  C:/Users/LENOVO/Documents/RRT_2/mainmenu.h \
-  C:/Users/LENOVO/Documents/RRT_2/mainwindow.h
+  C:/Users/LENOVO/Documents/RRT_2/mainmenu.h

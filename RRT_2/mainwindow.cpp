@@ -7,13 +7,9 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    GameMap *gamemap = new GameMap();
 
-    gamemap->initialize();
-    gamemap->show();
-    gamemap->spawnEnemy();
 
-    this->close();
+
     qDebug("Start Game!");
 }
 
@@ -21,3 +17,4 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+

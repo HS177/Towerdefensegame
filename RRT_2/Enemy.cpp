@@ -7,19 +7,22 @@
 #include <QEasingCurve>
 #include <QtMath>
 #include <QLineF>
-
+#include <QPixmap>
+#include <QBitmap>
 
 
 EnemyA::EnemyA(QPointF start, QPointF end, QObject *parent)
     : QObject(parent), startPoint(start), endPoint(end), pathIndex(0) {
 
 
-    setRect(0, 0, 40, 40);
-    setBrush(QBrush(QColor(100, 0, 0)));
+    QPixmap enemyPixmap(":/new/prefix2/enemy1.png");
+    setScale(0.2);
+    QBitmap mask = enemyPixmap.createMaskFromColor(QColor(255, 255, 255)); // Assuming white background
+    enemyPixmap.setMask(mask);
+    setPixmap(enemyPixmap);
+
 
     setPos(startPoint);
-
-
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &EnemyA::move);
@@ -55,7 +58,6 @@ void EnemyA::setupPath() {
     };
 }
 void EnemyA::startMoving(double speed) {
-    if (pathPoints.size() < 2) return;
 
     timer->start(20);
     targetSpeed = speed;
@@ -141,8 +143,6 @@ void EnemyB::setupPath() {
 
 
 void EnemyB::startMoving(double speed) {
-    if (pathPoints.size() < 2) return;
-
     timer->start(20);
     targetSpeed = speed;
 }

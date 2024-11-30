@@ -217,7 +217,7 @@ build RRT_2_autogen/timestamp RRT_2_autogen/mocs_compilation.cpp | ${cmake_ninja
 #############################################
 # Custom command for RRT_2_autogen\EWIEGA46WW\qrc_resourceIMG.cpp
 
-build RRT_2_autogen/EWIEGA46WW/qrc_resourceIMG.cpp | ${cmake_ninja_workdir}RRT_2_autogen/EWIEGA46WW/qrc_resourceIMG.cpp: CUSTOM_COMMAND C$:/Users/LENOVO/Documents/RRT_2/resourceIMG.qrc CMakeFiles/RRT_2_autogen.dir/AutoRcc_resourceIMG_EWIEGA46WW_Info.json C$:/Qt/6.8.0/mingw_64/bin/rcc.exe C$:/Qt/6.8.0/mingw_64/bin/rcc.exe || RRT_2_autogen RRT_2_autogen_timestamp_deps
+build RRT_2_autogen/EWIEGA46WW/qrc_resourceIMG.cpp | ${cmake_ninja_workdir}RRT_2_autogen/EWIEGA46WW/qrc_resourceIMG.cpp: CUSTOM_COMMAND C$:/Users/LENOVO/Documents/RRT_2/resourceIMG.qrc CMakeFiles/RRT_2_autogen.dir/AutoRcc_resourceIMG_EWIEGA46WW_Info.json C$:/Users/LENOVO/Documents/RRT_2/bricks.png C$:/Users/LENOVO/Documents/RRT_2/images.jpg C$:/Users/LENOVO/Documents/RRT_2/back4.jpg C$:/Users/LENOVO/Documents/RRT_2/enemyA.png C$:/Users/LENOVO/Documents/RRT_2/enemy1.png C$:/Users/LENOVO/Documents/RRT_2/EnemyB.jpg C$:/Qt/6.8.0/mingw_64/bin/rcc.exe C$:/Qt/6.8.0/mingw_64/bin/rcc.exe || RRT_2_autogen RRT_2_autogen_timestamp_deps
   COMMAND = C:\Windows\system32\cmd.exe /C "cd /D C:\Users\LENOVO\Documents\RRT_2\build\Desktop_Qt_6_8_0_MinGW_64_bit-Debug && C:\Qt\Tools\CMake_64\bin\cmake.exe -E cmake_autorcc C:/Users/LENOVO/Documents/RRT_2/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/CMakeFiles/RRT_2_autogen.dir/AutoRcc_resourceIMG_EWIEGA46WW_Info.json Debug"
   DESC = Automatic RCC for resourceIMG.qrc
   restat = 1

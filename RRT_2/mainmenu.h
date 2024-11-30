@@ -131,7 +131,7 @@ public:
 
 protected:
 
-    void resizeEvent(QResizeEvent *event) override {
+    void resizeEvent(QResizeEvent *event) {
         QWidget::resizeEvent(event);
         updateBackground();
     }

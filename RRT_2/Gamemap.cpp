@@ -12,16 +12,11 @@
 #include "Enemy.h"
 
 GameMap::GameMap(QWidget *parent) : QGraphicsView(parent), scene(new QGraphicsScene(this)) {
-    scene = new QGraphicsScene(this);
-
 
     this->setScene(scene);
 
 
     scene->setBackgroundBrush(QBrush(QPixmap(":/new/prefix2/bricks.png")));
-
-
-
 
 
     createMap();
@@ -44,7 +39,7 @@ void GameMap::createMap() {
 
             if (i == 0 || i == rows - 1 || j == 0 || j == cols - 1) {
                 if (!addTexture(cell, ":/textures/path_texture.png")) {
-                    cell->setBrush(QBrush(QColor(200, 10, 50)));
+                    cell->setBrush(QBrush(QColor(200, 200, 200,180)));
                 }
             }
 
@@ -56,10 +51,10 @@ void GameMap::createMap() {
             }
 
             if (i == rows - 1 && j == 0) {
-                cell->setBrush(QBrush(QColor(0, 255, 0, 180)));
+                cell->setBrush(QBrush(QColor(200, 255, 200, 180)));
                 cell->setPen(QPen(QColor(0, 200, 0), 2));
             } else if (i == rows - 1 && j == cols - 1) {
-                cell->setBrush(QBrush(QColor(255, 0, 0, 180)));
+                cell->setBrush(QBrush(QColor(255, 200, 200, 180)));
                 cell->setPen(QPen(QColor(200, 0, 0), 2));
             }
         }
@@ -119,16 +114,12 @@ void GameMap::spawnEnemy() {
 }
 
 void GameMap::addAgents() {
-    QColor colors[] = {Qt::red, Qt::green, Qt::white, Qt::yellow};
-    for (int j = 1; j < cols - 1; ++j) {
-        QColor agentColor = colors[j % 4];
-        if (j % 4 == 0) {
-            QColor temp = colors[2];
-            colors[2] = colors[1];
-            colors[1] = temp;
-        }
+    QColor colors[] = {Qt::blue, Qt::green, Qt::white, Qt::yellow};
+    for (int j = 0; j < 4; ++j) {
+
+        QColor agentColor = colors[j ];
         Agent *agent = new Agent(agentColor);
-        agent->setRect(j * cellSize, (rows + 1) * cellSize, cellSize, cellSize);
+        agent->setRect((j+1) * cellSize, (rows+1) * cellSize, cellSize, cellSize);
         scene->addItem(agent);
         agents.append(agent);
     }

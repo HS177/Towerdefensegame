@@ -202,6 +202,7 @@ RRT_2_autogen/timestamp: \
 	C:/Qt/6.8.0/mingw_64/include/QtGui/qwindowdefs_win.h \
 	C:/Qt/6.8.0/mingw_64/include/QtWidgets/QApplication \
 	C:/Qt/6.8.0/mingw_64/include/QtWidgets/QGraphicsEllipseItem \
+	C:/Qt/6.8.0/mingw_64/include/QtWidgets/QGraphicsPixmapItem \
 	C:/Qt/6.8.0/mingw_64/include/QtWidgets/QGraphicsRectItem \
 	C:/Qt/6.8.0/mingw_64/include/QtWidgets/QGraphicsScene \
 	C:/Qt/6.8.0/mingw_64/include/QtWidgets/QGraphicsView \

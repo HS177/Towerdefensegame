@@ -22,7 +22,7 @@ public:
     void createMap();
 
 protected:
-    void mousePressEvent(QMouseEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) ;
 
 private:
     QGraphicsScene *scene;

@@ -3,5 +3,8 @@
         <file>images.jpg</file>
         <file>back4.jpg</file>
         <file>bricks.png</file>
+        <file>enemyA.png</file>
+        <file>enemy1.png</file>
+        <file>EnemyB.jpg</file>
     </qresource>
 </RCC>

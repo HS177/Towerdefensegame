@@ -6,7 +6,7 @@
 
 class Agent : public QGraphicsRectItem {
 public:
-    explicit Agent(const QColor &color, QGraphicsItem *parent = nullptr);
+     Agent(const QColor &color, QGraphicsItem *parent = nullptr);
 
     QColor getColor() const;
     void setColor(const QColor &color);

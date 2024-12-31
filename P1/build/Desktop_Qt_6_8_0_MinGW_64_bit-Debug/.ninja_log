@@ -42,3 +42,14 @@
 290	3506	7573266389840998	CMakeFiles/P1.dir/mainwindow.cpp.obj	c0554f6df538eec0
 293	7124	7573266389870923	CMakeFiles/P1.dir/Gamemap.cpp.obj	9fb076c111c8d814
 7124	7671	7573266458188588	P1.exe	833b3782f4c8a170
+36	3436	7573646967468931	P1_autogen/timestamp	4c2ee6955243a57e
+36	3436	7573646967468931	P1_autogen/mocs_compilation.cpp	4c2ee6955243a57e
+36	3436	7573646967468931	C:/Users/LENOVO/Documents/P1/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/P1_autogen/timestamp	4c2ee6955243a57e
+36	3436	7573646967468931	C:/Users/LENOVO/Documents/P1/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/P1_autogen/mocs_compilation.cpp	4c2ee6955243a57e
+3457	10152	7573646968674701	CMakeFiles/P1.dir/bullet.cpp.obj	b611966a3cd8844f
+3453	10346	7573646968634803	CMakeFiles/P1.dir/Agent.cpp.obj	644e7d709c134b05
+3445	10964	7573646968555017	CMakeFiles/P1.dir/mainwindow.cpp.obj	c0554f6df538eec0
+3440	10966	7573646968515126	CMakeFiles/P1.dir/main.cpp.obj	7e7fa12598d89b54
+3437	11401	7573646968475229	CMakeFiles/P1.dir/P1_autogen/mocs_compilation.cpp.obj	ef9d89398725aae7
+3449	15444	7573646968594922	CMakeFiles/P1.dir/Gamemap.cpp.obj	9fb076c111c8d814
+15445	16525	7573647088552618	P1.exe	833b3782f4c8a170

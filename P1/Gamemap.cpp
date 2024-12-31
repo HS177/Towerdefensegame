@@ -21,9 +21,9 @@ GameMap::GameMap(QWidget *parent) : QGraphicsView(parent), scene(new QGraphicsSc
     //this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     //setRenderHint(QPainter::Antialiasing);
     //setRenderHint(QPainter::SmoothPixmapTransform);
-    //setDragMode(QGraphicsView::NoDrag); // Disable dragging of the view
+    //setDragMode(QGraphicsView::NoDrag);
 
-    // Disable zooming with the mouse wheel
+
     this->installEventFilter(this);
 
 
@@ -34,7 +34,7 @@ GameMap::GameMap(QWidget *parent) : QGraphicsView(parent), scene(new QGraphicsSc
 
     resize(cols * cellSize + 600, rows * cellSize + 200);
 
-    // Initialize grid as unoccupied
+
     for (int i = 0; i < 10; ++i) {
         for (int j = 0; j < 10; ++j) {
             grid[i][j] = false;
@@ -73,7 +73,7 @@ void GameMap::createMap() {
         }
     }
 
-    // Create agent cells
+
     for (int i = rows + 1; i < rows + 2; ++i) {
         for (int j = 1; j < cols - 1; ++j) {
             QGraphicsRectItem *cell = scene->addRect(j * cellSize, i * cellSize, cellSize, cellSize);
@@ -98,7 +98,7 @@ bool GameMap::addTexture(QGraphicsRectItem *item, const QString &texturePath) {
 void GameMap::initialize() {
     QTimer *spawnTimer = new QTimer(this);
     connect(spawnTimer, &QTimer::timeout, this, &GameMap::spawnEnemy);
-    spawnTimer->start(20000);  // Spawn enemy every 20 seconds
+    spawnTimer->start(20000);
 }
 
 void GameMap::spawnEnemy() {

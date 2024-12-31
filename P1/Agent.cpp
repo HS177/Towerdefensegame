@@ -35,16 +35,14 @@ void Agent::setColor(const QColor &color) {
 }
 
 void Agent::shoot() {
-    // Create a new projectile
 
-    // Correct center calculation
     QPointF localCenter = boundingRect().center();
     QPointF startPos = mapToScene(localCenter);
 
-    QPointF direction(0,-2); // Upward direction
+    QPointF direction(0,-2);
     bullet = new Projectile(startPos, direction);
     shootTimer->start(500);
-    // Add the bullet to the scene
+
     if (scene()) {
         scene()->addItem(bullet);
     }

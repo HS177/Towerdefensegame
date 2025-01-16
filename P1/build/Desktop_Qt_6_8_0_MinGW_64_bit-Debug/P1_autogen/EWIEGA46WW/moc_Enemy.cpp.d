@@ -1,17 +1,15 @@
 C:/Users/LENOVO/Documents/P1/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/P1_autogen/EWIEGA46WW/moc_Enemy.cpp: C:/Users/LENOVO/Documents/P1/Enemy.h \
   C:/Users/LENOVO/Documents/P1/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/P1_autogen/moc_predefs.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/QObject \
-  C:/Qt/6.8.0/mingw_64/include/QtCore/QPropertyAnimation \
-  C:/Qt/6.8.0/mingw_64/include/QtCore/QSequentialAnimationGroup \
+  C:/Qt/6.8.0/mingw_64/include/QtCore/QPointF \
   C:/Qt/6.8.0/mingw_64/include/QtCore/QTimer \
+  C:/Qt/6.8.0/mingw_64/include/QtCore/QVector \
   C:/Qt/6.8.0/mingw_64/include/QtCore/q20functional.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/q20iterator.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/q20memory.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/q20type_traits.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/q23utility.h \
-  C:/Qt/6.8.0/mingw_64/include/QtCore/qabstractanimation.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qalgorithms.h \
-  C:/Qt/6.8.0/mingw_64/include/QtCore/qanimationgroup.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qanystringview.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qarraydata.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qarraydataops.h \
@@ -40,7 +38,7 @@ C:/Users/LENOVO/Documents/P1/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/P1_autoge
   C:/Qt/6.8.0/mingw_64/include/QtCore/qdarwinhelpers.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qdatastream.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qdebug.h \
-  C:/Qt/6.8.0/mingw_64/include/QtCore/qeasingcurve.h \
+  C:/Qt/6.8.0/mingw_64/include/QtCore/qendian.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qexceptionhandling.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qflags.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qfloat16.h \
@@ -76,12 +74,10 @@ C:/Users/LENOVO/Documents/P1/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/P1_autoge
   C:/Qt/6.8.0/mingw_64/include/QtCore/qpair.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qpoint.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qprocessordetection.h \
-  C:/Qt/6.8.0/mingw_64/include/QtCore/qpropertyanimation.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qrect.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qrefcount.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qscopedpointer.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qscopeguard.h \
-  C:/Qt/6.8.0/mingw_64/include/QtCore/qsequentialanimationgroup.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qset.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qshareddata.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qshareddata_impl.h \
@@ -126,15 +122,18 @@ C:/Users/LENOVO/Documents/P1/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/P1_autoge
   C:/Qt/6.8.0/mingw_64/include/QtCore/qtypes.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qutf8stringview.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qvariant.h \
-  C:/Qt/6.8.0/mingw_64/include/QtCore/qvariantanimation.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qvarlengtharray.h \
+  C:/Qt/6.8.0/mingw_64/include/QtCore/qvector.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qversiontagging.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qxptype_traits.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qyieldcpu.h \
+  C:/Qt/6.8.0/mingw_64/include/QtGui/qbrush.h \
   C:/Qt/6.8.0/mingw_64/include/QtGui/qcolor.h \
+  C:/Qt/6.8.0/mingw_64/include/QtGui/qfont.h \
   C:/Qt/6.8.0/mingw_64/include/QtGui/qimage.h \
   C:/Qt/6.8.0/mingw_64/include/QtGui/qpaintdevice.h \
   C:/Qt/6.8.0/mingw_64/include/QtGui/qpainterpath.h \
+  C:/Qt/6.8.0/mingw_64/include/QtGui/qpen.h \
   C:/Qt/6.8.0/mingw_64/include/QtGui/qpixelformat.h \
   C:/Qt/6.8.0/mingw_64/include/QtGui/qpixmap.h \
   C:/Qt/6.8.0/mingw_64/include/QtGui/qpolygon.h \
@@ -149,7 +148,9 @@ C:/Users/LENOVO/Documents/P1/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/P1_autoge
   C:/Qt/6.8.0/mingw_64/include/QtGui/qwindowdefs_win.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/QGraphicsEllipseItem \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/QGraphicsPixmapItem \
+  C:/Qt/6.8.0/mingw_64/include/QtWidgets/QGraphicsScene \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qgraphicsitem.h \
+  C:/Qt/6.8.0/mingw_64/include/QtWidgets/qgraphicsscene.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qtwidgets-config.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qtwidgetsexports.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qtwidgetsglobal.h \

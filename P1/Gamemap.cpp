@@ -95,49 +95,69 @@ bool GameMap::addTexture(QGraphicsRectItem *item, const QString &texturePath) {
     return true;
 }
 
+
+bool isSpawning = false;
+
 void GameMap::initialize() {
     QTimer *spawnTimer = new QTimer(this);
-    connect(spawnTimer, &QTimer::timeout, this, &GameMap::spawnEnemy);
+    connect(spawnTimer, &QTimer::timeout, this, &GameMap::spawnEnemyWave);
     spawnTimer->start(20000);
 }
 
-void GameMap::spawnEnemy() {
+void GameMap::spawnEnemyWave() {
+    if (isSpawning) return;
+    isSpawning = true;
+
     int totalEnemies = 4;
     QPointF spawnPosition(20, 350);
     QPointF targetPosition(500, 200);
     QTimer *spawnTimer = new QTimer(this);
     int *enemyCount = new int(0);
+
     connect(spawnTimer, &QTimer::timeout, this, [this, spawnTimer, enemyCount, totalEnemies, spawnPosition, targetPosition]() {
         if (*enemyCount < totalEnemies) {
             if (rand() % 2) {
                 auto *enemya = new EnemyA(spawnPosition, targetPosition);
                 scene->addItem(enemya);
                 enemya->startMoving(80);
+
             } else {
                 auto *enemyb = new EnemyB(spawnPosition, targetPosition);
                 scene->addItem(enemyb);
                 enemyb->startMoving(60);
+
             }
             (*enemyCount)++;
         } else {
             spawnTimer->stop();
             spawnTimer->deleteLater();
             delete enemyCount;
+            isSpawning = false;
         }
     });
+
     spawnTimer->start(1000);
 }
 
 void GameMap::addAgents() {
     QColor colors[] = {Qt::blue, Qt::green, Qt::white, Qt::yellow};
     for (int j = 0; j < 4; ++j) {
-        Agent *agent = new Agent(colors[j]);
-        agent->setRect((j + 1) * cellSize, (rows + 1) * cellSize, cellSize, cellSize);
-        scene->addItem(agent);
-        agents.append(agent);
+        Agent *agent = nullptr;
+
+        if (colors[j] == Qt::blue || colors[j] == Qt::green) {
+            agent = new EndStrikerAgent(colors[j]);
+        } else if (colors[j] == Qt::yellow) {
+            agent = new FirstStrickerAgent(colors[j]);
+        } else if (colors[j] == Qt::white) {
+            agent = new RandomStrickerAgent(colors[j]);
+        }
+        if (agent) {
+            agent->setRect((j + 1) * cellSize, (rows + 1) * cellSize, cellSize, cellSize);
+            scene->addItem(agent);
+            agents.append(agent);
+        }
     }
 }
-
 void GameMap::mousePressEvent(QMouseEvent *event) {
     QPointF scenePos = mapToScene(event->pos());
     QGraphicsItem *clickedItem = scene->itemAt(scenePos, QTransform());
@@ -154,25 +174,37 @@ void GameMap::mousePressEvent(QMouseEvent *event) {
             int y = clickedBox->rect().y() / cellSize;
 
             if (!isCellOccupied(x, y)) {
-                Agent *newAgent = new Agent(selectedAgent->getColor());
-                newAgent->setRect(clickedBox->rect());
-                scene->addItem(newAgent);
-                newAgent->shoot();
-                agents.append(newAgent);
-                occupyCell(x, y);
+                Agent *newAgent = nullptr;
 
-                scene->removeItem(selectedAgent);
-                agents.removeOne(selectedAgent);
-                delete selectedAgent;
-                selectedAgent = nullptr;
+                if (dynamic_cast<EndStrikerAgent *>(selectedAgent)) {
+                    newAgent = new EndStrikerAgent(selectedAgent->getColor());
+                } else if (dynamic_cast<FirstStrickerAgent *>(selectedAgent)) {
+                    newAgent = new FirstStrickerAgent(selectedAgent->getColor());
+                } else if (dynamic_cast<RandomStrickerAgent *>(selectedAgent)) {
+                    newAgent = new RandomStrickerAgent(selectedAgent->getColor());
+                }
 
-                qDebug() << "Agent moved to new cell.";
+                if (newAgent) {
+                    newAgent->setRect(clickedBox->rect());
+                    scene->addItem(newAgent);
+                    newAgent->startShooting();
+                    agents.append(newAgent);
+                    occupyCell(x, y);
+
+                    scene->removeItem(selectedAgent);
+                    agents.removeOne(selectedAgent);
+                    delete selectedAgent;
+                    selectedAgent = nullptr;
+
+                    qDebug() << "Agent moved to new cell.";
+                }
             } else {
                 qDebug() << "Cell is already occupied!";
             }
         }
     }
 }
+
 
 bool GameMap::isCellOccupied(int x, int y) {
     return x < 0 || x >= 10 || y < 0 || y >= 10 || grid[x][y];

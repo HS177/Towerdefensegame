@@ -147,7 +147,7 @@ private slots:
 
         gamemap->initialize();
         gamemap->show();
-        gamemap->spawnEnemy();
+        gamemap->spawnEnemyWave();
 
         this->close();
         qDebug("Start Game!");

@@ -1,5 +1,8 @@
 C:/Users/LENOVO/Documents/P1/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/P1_autogen/EWIEGA46WW/moc_bullet.cpp: C:/Users/LENOVO/Documents/P1/bullet.h \
   C:/Users/LENOVO/Documents/P1/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/P1_autogen/moc_predefs.h \
+  C:/Qt/6.8.0/mingw_64/include/QtCore/QDebug \
+  C:/Qt/6.8.0/mingw_64/include/QtCore/QLineF \
+  C:/Qt/6.8.0/mingw_64/include/QtCore/QObject \
   C:/Qt/6.8.0/mingw_64/include/QtCore/QTimer \
   C:/Qt/6.8.0/mingw_64/include/QtCore/q20functional.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/q20iterator.h \
@@ -144,7 +147,6 @@ C:/Users/LENOVO/Documents/P1/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/P1_autoge
   C:/Qt/6.8.0/mingw_64/include/QtGui/qwindowdefs.h \
   C:/Qt/6.8.0/mingw_64/include/QtGui/qwindowdefs_win.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/QGraphicsEllipseItem \
-  C:/Qt/6.8.0/mingw_64/include/QtWidgets/QGraphicsRectItem \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/QGraphicsScene \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qgraphicsitem.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qgraphicsscene.h \

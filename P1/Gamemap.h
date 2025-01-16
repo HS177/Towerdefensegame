@@ -17,7 +17,7 @@ class GameMap : public QGraphicsView {
 public:
     GameMap(QWidget *parent = nullptr);
 
-    void spawnEnemy();
+    void spawnEnemyWave();
     void initialize();
     void createMap();
 

@@ -2,11 +2,12 @@ C:/Users/LENOVO/Documents/P1/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/P1_autoge
   C:/Users/LENOVO/Documents/P1/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/P1_autogen/moc_predefs.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/QDebug \
   C:/Qt/6.8.0/mingw_64/include/QtCore/QEvent \
+  C:/Qt/6.8.0/mingw_64/include/QtCore/QLineF \
   C:/Qt/6.8.0/mingw_64/include/QtCore/QList \
   C:/Qt/6.8.0/mingw_64/include/QtCore/QObject \
+  C:/Qt/6.8.0/mingw_64/include/QtCore/QPointF \
   C:/Qt/6.8.0/mingw_64/include/QtCore/QPropertyAnimation \
   C:/Qt/6.8.0/mingw_64/include/QtCore/QRect \
-  C:/Qt/6.8.0/mingw_64/include/QtCore/QSequentialAnimationGroup \
   C:/Qt/6.8.0/mingw_64/include/QtCore/QSize \
   C:/Qt/6.8.0/mingw_64/include/QtCore/QSizeF \
   C:/Qt/6.8.0/mingw_64/include/QtCore/QTimer \
@@ -18,7 +19,6 @@ C:/Users/LENOVO/Documents/P1/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/P1_autoge
   C:/Qt/6.8.0/mingw_64/include/QtCore/q23utility.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qabstractanimation.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qalgorithms.h \
-  C:/Qt/6.8.0/mingw_64/include/QtCore/qanimationgroup.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qanystringview.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qarraydata.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qarraydataops.h \
@@ -98,7 +98,6 @@ C:/Users/LENOVO/Documents/P1/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/P1_autoge
   C:/Qt/6.8.0/mingw_64/include/QtCore/qrefcount.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qscopedpointer.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qscopeguard.h \
-  C:/Qt/6.8.0/mingw_64/include/QtCore/qsequentialanimationgroup.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qset.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qshareddata.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/qshareddata_impl.h \

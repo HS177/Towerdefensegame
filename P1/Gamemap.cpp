@@ -16,12 +16,6 @@
 GameMap::GameMap(QWidget *parent) : QGraphicsView(parent), scene(new QGraphicsScene(this)) {
     this->setScene(scene);
 
-    // Disable scrollbars and make sure the view doesn't scroll
-    //this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    //this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    //setRenderHint(QPainter::Antialiasing);
-    //setRenderHint(QPainter::SmoothPixmapTransform);
-    //setDragMode(QGraphicsView::NoDrag);
 
 
     this->installEventFilter(this);
@@ -41,8 +35,27 @@ GameMap::GameMap(QWidget *parent) : QGraphicsView(parent), scene(new QGraphicsSc
         }
     }
 
+
+
+    initialize();
+    startElixirCounter();
     initialize();
 }
+void GameMap::startElixirCounter() {
+     elixirTimer = new QTimer(this);
+    connect(elixirTimer, &QTimer::timeout, this, [this]() {
+        if (elixirCounter < 10) {
+            elixirCounter++;
+            elixirCounterText->setPlainText(QString::number(elixirCounter));
+
+        } else {
+            elixirTimer->stop();
+            qDebug() << "Elixir has reached the maximum value of 10.";
+        }
+    });
+    elixirTimer->start(2000);
+}
+
 
 void GameMap::createMap() {
     for (int i = 0; i < rows; ++i) {
@@ -74,12 +87,44 @@ void GameMap::createMap() {
     }
 
 
-    for (int i = rows + 1; i < rows + 2; ++i) {
+    for (int i = rows ; i < rows + 1; ++i) {
         for (int j = 1; j < cols - 1; ++j) {
             QGraphicsRectItem *cell = scene->addRect(j * cellSize, i * cellSize, cellSize, cellSize);
             cell->setPen(QPen(Qt::black));
             cell->setBrush(QBrush(QColor(150, 150, 150)));
             agentCells.append(cell);
+        }
+    }
+    for (int i =  rows+1; i < rows +2; ++i) {
+        for (int j = 0; j < cols ; ++j) {
+            QGraphicsRectItem *cell = scene->addRect(j * cellSize, i * cellSize, cellSize, cellSize);
+            cell->setPen(QPen(Qt::black));
+            cell->setBrush(QBrush(QColor(150, 150, 150)));
+            levelcells.append(cell);
+
+        }
+    }
+    for (int i=rows+1; i< rows +2; ++i){
+        for (int j=-2;j<-1;++j){
+            QGraphicsRectItem *cell= scene->addRect(j*cellSize,i*cellSize,cellSize,cellSize);
+
+
+            QPixmap elixirImage(":/new/prefix2/PICTURES/elixirBottle.jpg");
+            QBitmap mask = elixirImage.createMaskFromColor(QColor(255, 255, 255));
+            elixirImage.setMask(mask);
+
+            QGraphicsPixmapItem *pixmapItem = scene->addPixmap(elixirImage.scaled(cellSize, cellSize));
+            pixmapItem->setPos((j+0.1) * cellSize, i * cellSize);
+            pixmapItem->setZValue(0);
+
+
+            elixirCounterText = new QGraphicsTextItem(QString::number(elixirCounter));
+
+                elixirCounterText->setDefaultTextColor(Qt::white);
+            elixirCounterText->setFont(QFont("Bold", 18));
+            elixirCounterText->setPos((j-0.1) * cellSize + cellSize / 4, (i+0.5) * cellSize - cellSize / 4);
+            elixirCounterText->setZValue(1);
+            scene->addItem(elixirCounterText);
         }
     }
 }
@@ -119,12 +164,12 @@ void GameMap::spawnEnemyWave() {
             if (rand() % 2) {
                 auto *enemya = new EnemyA(spawnPosition, targetPosition);
                 scene->addItem(enemya);
-                enemya->startMoving(80);
+                enemya->startMoving(30);
 
             } else {
                 auto *enemyb = new EnemyB(spawnPosition, targetPosition);
                 scene->addItem(enemyb);
-                enemyb->startMoving(60);
+                enemyb->startMoving(40);
 
             }
             (*enemyCount)++;
@@ -144,15 +189,17 @@ void GameMap::addAgents() {
     for (int j = 0; j < 4; ++j) {
         Agent *agent = nullptr;
 
-        if (colors[j] == Qt::blue || colors[j] == Qt::green) {
+        if (colors[j] == Qt::blue ) {
             agent = new EndStrikerAgent(colors[j]);
+        } else if (colors[j] == Qt::green) {
+            agent = new maxHealthstricker(colors[j]);
         } else if (colors[j] == Qt::yellow) {
             agent = new FirstStrickerAgent(colors[j]);
         } else if (colors[j] == Qt::white) {
             agent = new RandomStrickerAgent(colors[j]);
         }
         if (agent) {
-            agent->setRect((j + 1) * cellSize, (rows + 1) * cellSize, cellSize, cellSize);
+            agent->setRect((j + 1) * cellSize, (rows ) * cellSize-1, cellSize, cellSize);
             scene->addItem(agent);
             agents.append(agent);
         }
@@ -163,8 +210,10 @@ void GameMap::mousePressEvent(QMouseEvent *event) {
     QGraphicsItem *clickedItem = scene->itemAt(scenePos, QTransform());
 
     if (Agent *clickedAgent = dynamic_cast<Agent *>(clickedItem)) {
-        selectedAgent = clickedAgent;
-        qDebug() << "Agent selected with color:" << clickedAgent->getColor();
+        if (!selectedAgent) {
+            selectedAgent = clickedAgent;
+            qDebug() << "Agent selected with color:" << clickedAgent->getColor();
+        }
         return;
     }
 
@@ -174,35 +223,59 @@ void GameMap::mousePressEvent(QMouseEvent *event) {
             int y = clickedBox->rect().y() / cellSize;
 
             if (!isCellOccupied(x, y)) {
-                Agent *newAgent = nullptr;
+                QRectF previousRect = selectedAgent->rect();
+                int previousX = previousRect.x() / cellSize;
+                int previousY = previousRect.y() / cellSize;
 
-                if (dynamic_cast<EndStrikerAgent *>(selectedAgent)) {
-                    newAgent = new EndStrikerAgent(selectedAgent->getColor());
-                } else if (dynamic_cast<FirstStrickerAgent *>(selectedAgent)) {
-                    newAgent = new FirstStrickerAgent(selectedAgent->getColor());
-                } else if (dynamic_cast<RandomStrickerAgent *>(selectedAgent)) {
-                    newAgent = new RandomStrickerAgent(selectedAgent->getColor());
-                }
+                int requiredElixir = selectedAgent->getElixirN();
 
-                if (newAgent) {
-                    newAgent->setRect(clickedBox->rect());
-                    scene->addItem(newAgent);
-                    newAgent->startShooting();
-                    agents.append(newAgent);
+                if (elixirCounter >= requiredElixir) {
+                    selectedAgent->setRect(clickedBox->rect());
                     occupyCell(x, y);
+                    selectedAgent->startShooting();
+                    releaseCell(previousX, previousY);
 
-                    scene->removeItem(selectedAgent);
-                    agents.removeOne(selectedAgent);
-                    delete selectedAgent;
+                    Agent *replacementAgent = nullptr;
+                    int randomType = rand() % 4;
+                    switch (randomType) {
+                    case 0:
+                        replacementAgent = new EndStrikerAgent(Qt::blue);
+                        break;
+                    case 1:
+                        replacementAgent = new FirstStrickerAgent(Qt::yellow);
+                        break;
+                    case 2:
+                        replacementAgent = new RandomStrickerAgent(Qt::white);
+                        break;
+                    case 3:
+                        replacementAgent = new maxHealthstricker(Qt::green);
+                        break;
+                    }
+
+                    if (replacementAgent) {
+                        replacementAgent->setRect(previousRect);
+                        scene->addItem(replacementAgent);
+                        agents.append(replacementAgent);
+                        occupyCell(previousX, previousY);
+                    }
+
+                    elixirCounter -= requiredElixir;
+                    if (!elixirTimer->isActive()) {
+                        startElixirCounter();
+                    }
+
                     selectedAgent = nullptr;
-
-                    qDebug() << "Agent moved to new cell.";
+                    qDebug() << "Agent placed and previous cell filled with a new agent.";
+                } else {
+                    qDebug() << "Not enough elixir to deploy this agent!";
                 }
             } else {
                 qDebug() << "Cell is already occupied!";
             }
         }
     }
+
+
 }
 
 

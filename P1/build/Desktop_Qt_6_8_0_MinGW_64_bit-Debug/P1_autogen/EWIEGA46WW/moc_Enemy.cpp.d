@@ -148,6 +148,7 @@ C:/Users/LENOVO/Documents/P1/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/P1_autoge
   C:/Qt/6.8.0/mingw_64/include/QtGui/qwindowdefs_win.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/QGraphicsEllipseItem \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/QGraphicsPixmapItem \
+  C:/Qt/6.8.0/mingw_64/include/QtWidgets/QGraphicsRectItem \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/QGraphicsScene \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qgraphicsitem.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qgraphicsscene.h \

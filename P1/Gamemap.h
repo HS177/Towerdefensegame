@@ -30,6 +30,7 @@ private:
     QVector<QGraphicsRectItem*> boxCells;
     QVector<Agent*> agents;
     QVector<QGraphicsRectItem*> agentCells;
+    QVector<QGraphicsRectItem*> levelcells;
 
     QGraphicsRectItem *selectedBox = nullptr;
     Agent *selectedAgent = nullptr;
@@ -43,6 +44,13 @@ private:
     bool isCellOccupied(int x, int y);
     void occupyCell(int x, int y);
     void releaseCell(int x, int y);
+
+    QGraphicsTextItem * elixirCounterText;
+    int elixirCounter=0;
+    QTimer *elixirTimer;
+
+    void startElixirCounter();
+
 
     EnemyA *enemya;
     const int cellSize = 80;

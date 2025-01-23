@@ -22,7 +22,21 @@ public:
     virtual void startShooting();
     virtual void shoot();
 
+    virtual int getElixirN(){
+        return elixerN;
+    }
+    int elixerN;
+
+
+    int getLevel() const;
+    void setLevel(int level);
+
+
+
 protected:
+    int level;
+    QGraphicsTextItem* levelDisplay;
+
     QTimer *shootTimer;
     QColor color;
 };
@@ -38,7 +52,12 @@ public:
 
     void shoot() override;
 
+    int getElixirN() override{
+        return elixerN;
+    }
+
 private:
+    int elixerN=2;
     Enemy* findClosestEnemy();
 };
 
@@ -52,8 +71,12 @@ public:
 
     void shoot() override;
 
+    int getElixirN() override{
+        return elixerN;
+    }
 
 private:
+     int elixerN=2;
     Enemy* findClosestEnemy();
 };
 
@@ -68,7 +91,32 @@ public:
 
     void shoot() override;
     Enemy* currentTarget=nullptr;
+
+    int getElixirN() override{
+        return elixerN;
+    }
+
 private:
+    int elixerN=4;
+    Enemy* findClosestEnemy();
+};
+
+class maxHealthstricker : public Agent {
+    Q_OBJECT
+
+public:
+    maxHealthstricker(const QColor &color, QObject *parent = nullptr);
+    ~maxHealthstricker();
+
+    void shoot() override;
+    Enemy* currentTarget=nullptr;
+
+
+    int getElixirN() override{
+        return elixerN;
+    }
+private:
+    int elixerN=3;
     Enemy* findClosestEnemy();
 };
 #endif

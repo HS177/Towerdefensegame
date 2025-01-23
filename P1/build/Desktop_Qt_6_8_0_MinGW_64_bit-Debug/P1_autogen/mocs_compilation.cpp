@@ -3,5 +3,4 @@
 #include "EWIEGA46WW/moc_Enemy.cpp"
 #include "EWIEGA46WW/moc_Gamemap.cpp"
 #include "EWIEGA46WW/moc_bullet.cpp"
-#include "EWIEGA46WW/moc_mainmenu.cpp"
 #include "EWIEGA46WW/moc_mainwindow.cpp"

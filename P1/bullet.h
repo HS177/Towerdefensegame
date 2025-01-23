@@ -9,6 +9,7 @@
 #include <QTimer>
 #include <QLineF>
 #include <QDebug>
+#include "Enemy.h"
 
 class Projectile : public QObject, public QGraphicsEllipseItem {
     Q_OBJECT
@@ -27,14 +28,27 @@ public:
         moveTimer->start(7.8);
     }
 
+
 private slots:
     void move() {
+
+        QList<QGraphicsItem *> collidingItemsList = collidingItems();
+        for (auto item : collidingItemsList) {
+            Enemy *enemy = dynamic_cast<Enemy *>(item);
+            if (enemy) {
+                enemy->decreaseHealth(20);
+                scene()->removeItem(this);
+                delete this;
+                return;
+            }
+        }
+
+
         QPointF currentPos = pos();
         QLineF line(currentPos, targetPos);
         qreal distance = line.length();
 
         if (distance < 5.0) {
-
             if (scene()) {
                 scene()->removeItem(this);
             }
@@ -42,16 +56,12 @@ private slots:
             return;
         }
 
-
         QPointF direction = line.p2() - line.p1();
         direction /= distance;
-
         QPointF newPos = currentPos + direction * 5;
         setPos(newPos);
     }
-
 private:
     QPointF targetPos;
 };
-
 #endif

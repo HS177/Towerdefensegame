@@ -1,7 +1,6 @@
 C:/Users/LENOVO/Documents/P1/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/P1_autogen/include/main.moc: C:/Users/LENOVO/Documents/P1/main.cpp \
   C:/Users/LENOVO/Documents/P1/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/P1_autogen/moc_predefs.h \
   C:/Qt/6.8.0/mingw_64/include/QtCore/QDebug \
-  C:/Qt/6.8.0/mingw_64/include/QtCore/QEvent \
   C:/Qt/6.8.0/mingw_64/include/QtCore/QLineF \
   C:/Qt/6.8.0/mingw_64/include/QtCore/QList \
   C:/Qt/6.8.0/mingw_64/include/QtCore/QObject \
@@ -151,12 +150,10 @@ C:/Users/LENOVO/Documents/P1/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/P1_autoge
   C:/Qt/6.8.0/mingw_64/include/QtCore/qyieldcpu.h \
   C:/Qt/6.8.0/mingw_64/include/QtGui/QBrush \
   C:/Qt/6.8.0/mingw_64/include/QtGui/QColor \
-  C:/Qt/6.8.0/mingw_64/include/QtGui/QEnterEvent \
   C:/Qt/6.8.0/mingw_64/include/QtGui/QMouseEvent \
   C:/Qt/6.8.0/mingw_64/include/QtGui/QPalette \
   C:/Qt/6.8.0/mingw_64/include/QtGui/QPen \
   C:/Qt/6.8.0/mingw_64/include/QtGui/QPixmap \
-  C:/Qt/6.8.0/mingw_64/include/QtGui/QResizeEvent \
   C:/Qt/6.8.0/mingw_64/include/QtGui/QTransform \
   C:/Qt/6.8.0/mingw_64/include/QtGui/qaction.h \
   C:/Qt/6.8.0/mingw_64/include/QtGui/qbitmap.h \
@@ -207,16 +204,13 @@ C:/Users/LENOVO/Documents/P1/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/P1_autoge
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/QGraphicsScene \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/QGraphicsView \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/QLabel \
-  C:/Qt/6.8.0/mingw_64/include/QtWidgets/QMessageBox \
+  C:/Qt/6.8.0/mingw_64/include/QtWidgets/QMainWindow \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/QPushButton \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/QVBoxLayout \
-  C:/Qt/6.8.0/mingw_64/include/QtWidgets/QWidget \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qabstractbutton.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qabstractscrollarea.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qapplication.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qboxlayout.h \
-  C:/Qt/6.8.0/mingw_64/include/QtWidgets/qdialog.h \
-  C:/Qt/6.8.0/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qframe.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qgraphicsitem.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qgraphicsscene.h \
@@ -225,10 +219,11 @@ C:/Users/LENOVO/Documents/P1/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/P1_autoge
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qlabel.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qlayout.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qlayoutitem.h \
-  C:/Qt/6.8.0/mingw_64/include/QtWidgets/qmessagebox.h \
+  C:/Qt/6.8.0/mingw_64/include/QtWidgets/qmainwindow.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qpushbutton.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qscrollarea.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qsizepolicy.h \
+  C:/Qt/6.8.0/mingw_64/include/QtWidgets/qtabwidget.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qtwidgets-config.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qtwidgetsexports.h \
   C:/Qt/6.8.0/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -443,4 +438,4 @@ C:/Users/LENOVO/Documents/P1/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/P1_autoge
   C:/Users/LENOVO/Documents/P1/Enemy.h \
   C:/Users/LENOVO/Documents/P1/Gamemap.h \
   C:/Users/LENOVO/Documents/P1/bullet.h \
-  C:/Users/LENOVO/Documents/P1/mainmenu.h
+  C:/Users/LENOVO/Documents/P1/mainwindow.h

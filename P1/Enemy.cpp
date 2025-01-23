@@ -1,16 +1,48 @@
+
 #include "Enemy.h"
-#include <QGraphicsScene>
 #include <QBitmap>
+#include <QGraphicsScene>
+#include <QGraphicsRectItem>
+#include <QPixmap>
 #include <QBrush>
+#include <QDebug>
 #include <QLineF>
 
+
 Enemy::Enemy(QPointF start, QPointF end, QObject *parent)
-    : QObject(parent), startPoint(start), endPoint(end), pathIndex(0) {
+    : QObject(parent), startPoint(start), endPoint(end), pathIndex(0), health(100), maxHealth(100) {
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Enemy::move);
     setupPath();
 }
 
+
+
+
+
+void Enemy::updateHealthBar() {
+    if (health < 0) health = 0;
+
+
+    double healthPercentage = static_cast<double>(health) / maxHealth;
+    healthBar->setRect(-15, -10, 30 * healthPercentage, 5);
+}
+
+
+void Enemy::decreaseHealth(int damage) {
+    health -= damage;
+    if (health <= 0) {
+        qDebug() << "Enemy destroyed!";
+        removeFromScene();
+    } else {
+        updateHealthBar();
+    }
+}
+
+void Enemy::startMoving(double speed) {
+    timer->start(20);
+    targetSpeed = speed;
+}
 void Enemy::setupPath() {
     pathPoints = {
         QPointF(20, 300),
@@ -30,11 +62,6 @@ void Enemy::setupPath() {
     };
 }
 
-void Enemy::startMoving(double speed) {
-    timer->start(20);
-    targetSpeed = speed;
-}
-
 void Enemy::move() {
     if (pathIndex < pathPoints.size() - 1) {
         QPointF currentPoint = pos();
@@ -52,21 +79,17 @@ void Enemy::move() {
 
             if (QLineF(newPos, targetPoint).length() < targetSpeed * 0.02) {
                 pathIndex++;
-                qDebug() << "Moved to point:" << pathPoints[pathIndex];
             }
+
+
         }
     } else {
         timer->stop();
-        qDebug() << "Movement finished!";
+        qDebug() << "Enemy reached the destination!";
         removeFromScene();
     }
 }
 
-EnemyA::EnemyA(QPointF start, QPointF end, QObject *parent)
-    : Enemy(start, end, parent) {
-    setupAppearance();
-    setPos(start);
-}
 
 void EnemyA::setupAppearance() {
     QPixmap enemyPixmap(":/new/prefix2/enemy1.png");
@@ -74,15 +97,49 @@ void EnemyA::setupAppearance() {
     QBitmap mask = enemyPixmap.createMaskFromColor(QColor(255, 255, 255));
     enemyPixmap.setMask(mask);
     setPixmap(enemyPixmap);
+
+
+
+    healthBar = new QGraphicsRectItem(-15,-10,30,5,this);
+
+    healthBar->setScale(5);
+    healthBar->setBrush(Qt::green);
 }
 
+
+EnemyA::EnemyA(QPointF start, QPointF end, QObject *parent)
+    : Enemy(start, end, parent) {
+    setupAppearance();
+    setPos(start);
+
+
+
+
+}
 EnemyB::EnemyB(QPointF start, QPointF end, QObject *parent)
     : Enemy(start, end, parent) {
     setupAppearance();
     setPos(start);
+
+
+
 }
+
 
 void EnemyB::setupAppearance() {
     setRect(3, 3, 30, 40);
     setBrush(QBrush(QColor(0, 200, 0)));
+
+
+    healthBar = new QGraphicsRectItem(-15, -10, 30, 5, this);
+    healthBar->setBrush(Qt::green);
 }
+
+void Enemy::removeFromScene() {
+    auto graphicsItem = dynamic_cast<QGraphicsItem *>(this);
+    if (graphicsItem && graphicsItem->scene()) {
+        graphicsItem->scene()->removeItem(graphicsItem);
+        delete this;
+    }
+}
+

@@ -12,12 +12,15 @@
 #include <QGraphicsEllipseItem>
 #include <QGraphicsRectItem>
 
+class Agent;
+
+
 
 class Enemy : public QObject {
     Q_OBJECT
 
 public:
-    Enemy(QPointF start, QPointF end, QObject *parent = nullptr);
+    Enemy(QPointF start, QPointF end,int H, QObject *parent = nullptr);
 
     virtual void setupAppearance() = 0;
     virtual void setPos(const QPointF &position) = 0;
@@ -31,6 +34,11 @@ public:
     int pathIndex;
     double targetSpeed;
     int health;
+
+
+signals:
+    void destroyed();
+    void reachedTarget();
 protected:
     QTimer *timer;
     QPointF startPoint;
@@ -48,29 +56,102 @@ protected slots:
     void move();
 };
 
-class EnemyA : public Enemy, public QGraphicsPixmapItem {
+class BOSSE : public Enemy, public QGraphicsPixmapItem {
     Q_OBJECT
 
 public:
-    EnemyA(QPointF start, QPointF end, QObject *parent = nullptr);
+   BOSSE(QPointF start, QPointF end,int H, QObject *parent = nullptr);
 
-    void setupAppearance() override;
+    void setupAppearance() =0;
     void setPos(const QPointF &position) override { QGraphicsPixmapItem::setPos(position); }
     QPointF pos() const override { return QGraphicsPixmapItem::pos(); }
     void removeFromScene() override { scene()->removeItem(this); delete this; }
 };
 
-class EnemyB : public Enemy, public QGraphicsEllipseItem {
+
+class FreezerBoss : public BOSSE {
     Q_OBJECT
 
 public:
-    EnemyB(QPointF start, QPointF end, QObject *parent = nullptr);
+    FreezerBoss(QPointF start, QPointF end, QVector<Agent*>& agentsRef, int H, QObject *parent = nullptr);
+    ~FreezerBoss();
 
     void setupAppearance() override;
+    void startFreezing();
+    void stopFreezing();
+    void removeFromScene();
+
+private:
+    QTimer *freezeTimer;
+    QVector<Agent *> frozenAgents;
+    QVector<Agent*>& agents;
+
+    const int freezeDuration = 5000;
+
+private slots:
+    void freezeRandomAgent();
+};
+
+
+
+
+class EraserBoss : public BOSSE {
+    Q_OBJECT
+
+public:
+    EraserBoss(QPointF start, QPointF end, QVector<Agent*>& agentsRef,int H, QObject *parent = nullptr);
+
+    ~EraserBoss();
+    void setupAppearance() override;
+
+private:
+    QTimer *killTimer;
+
+    QVector<Agent*>& agents;
+
+    const int KillDuration = 7000;
+
+private slots:
+    void KillRandomAgent();
+
+};
+
+
+
+
+
+
+class Soldier : public Enemy, public QGraphicsEllipseItem {
+    Q_OBJECT
+
+public:
+    Soldier(QPointF start, QPointF end,int H, QObject *parent = nullptr);
+
+    void setupAppearance() =0;
     void setPos(const QPointF &position) override { QGraphicsEllipseItem::setPos(position); }
     QPointF pos() const override { return QGraphicsEllipseItem::pos(); }
     void removeFromScene() override { scene()->removeItem(this); delete this; }
 };
+
+class Runner : public Soldier {
+    Q_OBJECT
+
+public:
+    Runner(QPointF start, QPointF end,int H, QObject *parent = nullptr);
+    void setupAppearance() override;
+
+
+};
+class shielder : public Soldier {
+    Q_OBJECT
+
+public:
+    shielder(QPointF start, QPointF end,int H, QObject *parent = nullptr);
+    void setupAppearance() override;
+
+
+};
+
 
 #endif
 

@@ -7,5 +7,6 @@
         <file>enemy1.png</file>
         <file>EnemyB.jpg</file>
         <file>PICTURES/elixirBottle.jpg</file>
+        <file>PICTURES/images.jpeg</file>
     </qresource>
 </RCC>

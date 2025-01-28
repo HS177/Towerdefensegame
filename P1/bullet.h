@@ -32,16 +32,27 @@ public:
 private slots:
     void move() {
 
+
         QList<QGraphicsItem *> collidingItemsList = collidingItems();
+
         for (auto item : collidingItemsList) {
+
             Enemy *enemy = dynamic_cast<Enemy *>(item);
             if (enemy) {
+
                 enemy->decreaseHealth(20);
-                scene()->removeItem(this);
+
+
+                if (scene()) {
+                    scene()->removeItem(this);
+                }
+
+
                 delete this;
                 return;
             }
         }
+
 
 
         QPointF currentPos = pos();

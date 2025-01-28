@@ -67,6 +67,7 @@ void GameMap::createMap() {
                 if (!addTexture(cell, ":/textures/path_texture.png")) {
                     cell->setBrush(QBrush(QColor(200, 200, 200, 180)));
                 }
+                BlockerCells.append(cell);
             }
 
             if (i >= 1 && i <= 4 && j >= 1 && j <= 4) {
@@ -143,49 +144,101 @@ bool GameMap::addTexture(QGraphicsRectItem *item, const QString &texturePath) {
 
 bool isSpawning = false;
 
+
 void GameMap::initialize() {
     QTimer *spawnTimer = new QTimer(this);
     connect(spawnTimer, &QTimer::timeout, this, &GameMap::spawnEnemyWave);
     spawnTimer->start(20000);
 }
 
+
 void GameMap::spawnEnemyWave() {
     if (isSpawning) return;
     isSpawning = true;
 
-    int totalEnemies = 4;
+
+    double enemyUpdate ;
+    if (waveNumber==0){
+        enemyUpdate=1;
+    }else{
+     enemyUpdate = waveNumber * 1.1;
+    }
+    int totalEnemies = 20;
+    int *enemyCount = new int(0);
+    int *remainingEnemies = new int(totalEnemies);
+
     QPointF spawnPosition(20, 350);
     QPointF targetPosition(500, 200);
     QTimer *spawnTimer = new QTimer(this);
-    int *enemyCount = new int(0);
 
-    connect(spawnTimer, &QTimer::timeout, this, [this, spawnTimer, enemyCount, totalEnemies, spawnPosition, targetPosition]() {
-        if (*enemyCount < totalEnemies) {
-            if (rand() % 2) {
-                auto *enemya = new EnemyA(spawnPosition, targetPosition);
-                scene->addItem(enemya);
-                enemya->startMoving(30);
 
-            } else {
-                auto *enemyb = new EnemyB(spawnPosition, targetPosition);
-                scene->addItem(enemyb);
-                enemyb->startMoving(40);
+    auto handleEnemyRemoved = [remainingEnemies, this]() {
+        (*remainingEnemies)--;
+        if (*remainingEnemies <= 0) {
 
-            }
-            (*enemyCount)++;
+            QTimer::singleShot(3000, this, [this, remainingEnemies]() {
+                delete remainingEnemies;
+                waveNumber++;
+                isSpawning = false;
+                spawnEnemyWave();
+            });
+        }
+    };
+
+
+    if (waveNumber % 2 == 1) {
+        if (rand() % 2) {
+            enemya = new EraserBoss(spawnPosition, targetPosition, agents, 2000 * enemyUpdate);
         } else {
+            enemya = new FreezerBoss(spawnPosition, targetPosition, agents, 2000 * enemyUpdate);
+        }
+
+        scene->addItem(enemya);
+        enemya->startMoving(25 * enemyUpdate / 2);
+
+        (*enemyCount)++;
+
+
+        connect(enemya, &Enemy::destroyed, this, handleEnemyRemoved);
+        connect(enemya, &Enemy::reachedTarget, this, handleEnemyRemoved);
+    }
+
+
+    connect(spawnTimer, &QTimer::timeout, this, [this, spawnTimer, enemyCount, remainingEnemies, totalEnemies, spawnPosition, targetPosition, enemyUpdate, handleEnemyRemoved]() {
+        if (*enemyCount < totalEnemies) {
+
+
+
+            if (rand() % 2) {
+                enemyb = new Runner(spawnPosition, targetPosition, 50 * enemyUpdate);
+                enemyb->startMoving(50 * enemyUpdate);
+            } else {
+                enemyb = new shielder(spawnPosition, targetPosition, 100 * enemyUpdate);
+                enemyb->startMoving(20 * enemyUpdate);
+            }
+
+            scene->addItem(enemyb);
+
+            (*enemyCount)++;
+
+
+            connect(enemyb, &Enemy::destroyed, this, handleEnemyRemoved);
+            connect(enemyb, &Enemy::reachedTarget, this, handleEnemyRemoved);
+        } else {
+
             spawnTimer->stop();
             spawnTimer->deleteLater();
             delete enemyCount;
-            isSpawning = false;
         }
     });
+
 
     spawnTimer->start(1000);
 }
 
+
 void GameMap::addAgents() {
-    QColor colors[] = {Qt::blue, Qt::green, Qt::white, Qt::yellow};
+    QColor colors[] = {Qt::blue, Qt::green, Qt::white, Qt::yellow,Qt::red,Qt::darkCyan};
     for (int j = 0; j < 4; ++j) {
         Agent *agent = nullptr;
 
@@ -199,44 +252,98 @@ void GameMap::addAgents() {
             agent = new RandomStrickerAgent(colors[j]);
         }
         if (agent) {
-            agent->setRect((j + 1) * cellSize, (rows ) * cellSize-1, cellSize, cellSize);
+            agent->setRect((j + 1) * cellSize-3, (rows ) * cellSize-1, cellSize, cellSize);
             scene->addItem(agent);
-            agents.append(agent);
+            agentsA.append(agent);
         }
     }
 }
+
 void GameMap::mousePressEvent(QMouseEvent *event) {
     QPointF scenePos = mapToScene(event->pos());
     QGraphicsItem *clickedItem = scene->itemAt(scenePos, QTransform());
 
-    if (Agent *clickedAgent = dynamic_cast<Agent *>(clickedItem)) {
-        if (!selectedAgent) {
-            selectedAgent = clickedAgent;
-            qDebug() << "Agent selected with color:" << clickedAgent->getColor();
+
+    if (striker *clickedAgent = dynamic_cast<striker *>(clickedItem)) {
+        if (!selectedstriker) {
+            selectedstriker = clickedAgent;
+            qDebug() << "Striker selected with color:" << clickedAgent->getColor();
+        } else if (selectedstriker != clickedAgent) {
+
+            if (typeid(*selectedstriker) == typeid(*clickedAgent)) {
+                auto rectInBoxCells = [this](const QRectF &rect) -> bool {
+                    for (QGraphicsRectItem *item : boxCells) {
+                        if (item->rect() == rect) {
+                            return true;
+                        }
+                    }
+                    return false;
+                };
+
+
+                if (rectInBoxCells(selectedstriker->rect()) && rectInBoxCells(clickedAgent->rect())) {
+                    int newShootingSpeed = (clickedAgent->getShootingSpeed()) * 2;
+
+                    clickedAgent->setShootingSpeed(newShootingSpeed);
+                    qDebug() << "New Shooting Speed:" << clickedAgent->getShootingSpeed();
+
+
+                    QRectF previousRect = selectedstriker->rect();
+                    int previousX = previousRect.x() / cellSize;
+                    int previousY = previousRect.y() / cellSize;
+
+
+                    releaseCell(previousX, previousY);
+                    scene->removeItem(selectedstriker);
+                    agents.removeOne(selectedstriker);
+                    delete selectedstriker;
+
+                    qDebug() << "Merged strikers! New shooting speed:" << newShootingSpeed;
+                    selectedstriker = nullptr;
+                } else {
+                    qDebug() << "Strikers must be in valid shooting positions to merge.";
+                }
+            } else {
+                qDebug() << "Strikers must be of the same type to merge.";
+            }
         }
         return;
     }
 
+
+    if (Blocker *clickedAgent = dynamic_cast<Blocker *>(clickedItem)) {
+        if (!selectedblocker) {
+            selectedblocker = clickedAgent;
+            qDebug() << "Blocker selected with color:" << clickedAgent->getColor();
+        }
+        return;
+    }
+
+
     if (QGraphicsRectItem *clickedBox = dynamic_cast<QGraphicsRectItem *>(clickedItem)) {
-        if (boxCells.contains(clickedBox) && selectedAgent) {
+        if (boxCells.contains(clickedBox) && selectedstriker) {
             int x = clickedBox->rect().x() / cellSize;
             int y = clickedBox->rect().y() / cellSize;
 
             if (!isCellOccupied(x, y)) {
-                QRectF previousRect = selectedAgent->rect();
+                QRectF previousRect = selectedstriker->rect();
                 int previousX = previousRect.x() / cellSize;
                 int previousY = previousRect.y() / cellSize;
 
-                int requiredElixir = selectedAgent->getElixirN();
+                if (!agents.contains(selectedstriker)) {
+                    agents.append(selectedstriker);
+                }
+
+                int requiredElixir = selectedstriker->getElixirN();
 
                 if (elixirCounter >= requiredElixir) {
-                    selectedAgent->setRect(clickedBox->rect());
+                    selectedstriker->setRect(clickedBox->rect());
                     occupyCell(x, y);
-                    selectedAgent->startShooting();
+                    selectedstriker->startShooting();
                     releaseCell(previousX, previousY);
 
                     Agent *replacementAgent = nullptr;
-                    int randomType = rand() % 4;
+                    int randomType = rand() % 6;
                     switch (randomType) {
                     case 0:
                         replacementAgent = new EndStrikerAgent(Qt::blue);
@@ -250,12 +357,17 @@ void GameMap::mousePressEvent(QMouseEvent *event) {
                     case 3:
                         replacementAgent = new maxHealthstricker(Qt::green);
                         break;
+                    case 4:
+                        replacementAgent = new Trap(Qt::darkCyan);
+                        break;
+                    case 5:
+                        replacementAgent = new Bomb(Qt::red);
+                        break;
                     }
-
                     if (replacementAgent) {
                         replacementAgent->setRect(previousRect);
                         scene->addItem(replacementAgent);
-                        agents.append(replacementAgent);
+                        agentsA.append(replacementAgent);
                         occupyCell(previousX, previousY);
                     }
 
@@ -264,7 +376,7 @@ void GameMap::mousePressEvent(QMouseEvent *event) {
                         startElixirCounter();
                     }
 
-                    selectedAgent = nullptr;
+                    selectedstriker = nullptr;
                     qDebug() << "Agent placed and previous cell filled with a new agent.";
                 } else {
                     qDebug() << "Not enough elixir to deploy this agent!";
@@ -273,6 +385,83 @@ void GameMap::mousePressEvent(QMouseEvent *event) {
                 qDebug() << "Cell is already occupied!";
             }
         }
+
+
+
+
+
+
+        if (!BlockerCells.contains(clickedBox)) {
+            qDebug() << "Clicked box is not in BlockerCells.";
+            return;
+        }
+
+        else if (BlockerCells.contains(clickedBox) && selectedblocker) {
+            int x = clickedBox->rect().x() / cellSize;
+            int y = clickedBox->rect().y() / cellSize;
+
+            if (!isCellOccupied(x, y)) {
+                QRectF previousRect = selectedblocker->rect();
+
+
+                int previousX=previousRect.x()/cellSize;
+                int previousY=previousRect.y() /cellSize;
+
+                int requiredElixir=selectedblocker->getElixirN();
+
+                if (elixirCounter >= requiredElixir) {
+                    selectedblocker->setRect(clickedBox->rect());
+                    occupyCell(x, y);
+
+
+                    selectedblocker->startWatchingForEnemies();
+                    releaseCell(previousX, previousY);
+
+                    Agent *replacementAgent = nullptr;
+                    int randomType = rand() % 6;
+                    switch (randomType) {
+                    case 0:
+                    replacementAgent =new EndStrikerAgent(Qt::blue);
+                        break;
+                    case 1:
+                        replacementAgent =new FirstStrickerAgent(Qt::yellow);
+                        break;
+                    case 2:
+                        replacementAgent = new RandomStrickerAgent(Qt::white);
+                        break;
+                    case 3:
+                        replacementAgent = new maxHealthstricker(Qt::green);
+                        break;
+                    case 4:
+                        replacementAgent = new Trap(Qt::darkCyan);
+                        break;
+                    case 5:
+                        replacementAgent = new Bomb(Qt::red);
+                        break;
+                    }
+                    if (replacementAgent) {
+                        replacementAgent->setRect(previousRect);
+                        scene->addItem(replacementAgent);
+                        agentsA.append(replacementAgent);
+                        occupyCell(previousX, previousY);
+                    }
+
+                    elixirCounter -= requiredElixir;
+                    if (!elixirTimer->isActive()) {
+                        startElixirCounter();
+                    }
+
+                    selectedblocker = nullptr;
+                    qDebug() << "blocker placed and previous cell filled with a new agent.";
+                } else {
+                    qDebug() << "Not enough elixir to deploy this Blocker!";
+                }
+            } else {
+                qDebug() << "Cell is already occupied!";
+            }
+        }
+
+
     }
 
 

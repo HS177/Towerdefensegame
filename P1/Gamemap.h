@@ -29,11 +29,17 @@ private:
     QTimer *spawnTimer;
     QVector<QGraphicsRectItem*> boxCells;
     QVector<Agent*> agents;
+    QVector<Agent*> agentsA;
+
     QVector<QGraphicsRectItem*> agentCells;
     QVector<QGraphicsRectItem*> levelcells;
+    QVector<QGraphicsRectItem*> BlockerCells;
+
+    QVector<Enemy *> enemies;
 
     QGraphicsRectItem *selectedBox = nullptr;
-    Agent *selectedAgent = nullptr;
+    Agent *selectedstriker = nullptr;
+    Agent *selectedblocker = nullptr;
 
     bool grid[10][10];
 
@@ -52,10 +58,14 @@ private:
     void startElixirCounter();
 
 
-    EnemyA *enemya;
+    BOSSE *enemya;
+    Soldier *enemyb;
+
     const int cellSize = 80;
     const int rows = 5;
     const int cols = 6;
+
+    int waveNumber=0;
 
 };
 

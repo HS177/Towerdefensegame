@@ -1,17 +1,11 @@
 
 #include "Agent.h"
 #include <QRandomGenerator>
-
-
-Agent::Agent(const QColor &color, QObject *parent)
-    : QObject(parent), QGraphicsEllipseItem(), color(color), level(1) {
+Agent::Agent(const QColor & color,QObject * parent)
+    :QObject(parent), QGraphicsEllipseItem(), color(color), level(1){
     setRect(0, 0, 20, 20);
     setBrush(QBrush(color));
     setPen(QPen(Qt::black));
-
-    shootTimer = new QTimer(this);
-    connect(shootTimer, &QTimer::timeout, this, &Agent::shoot);
-
 
     levelDisplay = new QGraphicsTextItem(QString("Lv %1").arg(level), this);
     levelDisplay->setDefaultTextColor(Qt::black);
@@ -25,9 +19,7 @@ Agent::Agent(const QColor &color, QObject *parent)
                          pos().y() - levelDisplay->boundingRect().height() - 5);
     levelDisplay->setVisible(true);
 
-
 }
-
 void Agent::setLevel(int newLevel) {
     level = newLevel;
     if (levelDisplay) {
@@ -38,14 +30,8 @@ void Agent::setLevel(int newLevel) {
 int Agent::getLevel() const {
     return level;
 }
-
 Agent::~Agent() {
-    if (shootTimer) {
-        shootTimer->stop();
-        delete shootTimer;
-    }
 }
-
 QColor Agent::getColor() const {
     return color;
 }
@@ -54,19 +40,71 @@ void Agent::setColor(const QColor &color) {
     this->color = color;
     setBrush(QBrush(color));
 }
-
-void Agent::startShooting() {
-    shootTimer->start(1000);
+void Agent::freezeAgent() {
+    isFrozen = true;
+    stopShooting();
 }
 
-void Agent::shoot() {
+void Agent::unfreezeAgent() {
+    isFrozen = false;
+    startShooting();
+}
+
+
+striker::striker(const QColor &color, QObject *parent)
+    : Agent(color,parent), level(1) {
+    setRect(0, 0, 20, 20);
+    setBrush(QBrush(color));
+    setPen(QPen(Qt::black));
+
+    shootTimer = new QTimer(this);
+    connect(shootTimer, &QTimer::timeout, this, &striker::shoot);
+
+
+
+
+
+}
+
+
+striker::~striker() {
+    if (shootTimer) {
+        shootTimer->stop();
+        delete shootTimer;
+    }
+}
+
+QColor striker::getColor() const {
+    return color;
+}
+
+void striker::setColor(const QColor &color) {
+    this->color = color;
+    setBrush(QBrush(color));
+}
+
+void striker::startShooting() {
+    if (!shootTimer) {
+        shootTimer = new QTimer(this);
+        connect(shootTimer, &QTimer::timeout, this, &striker::shoot);
+    }
+    shootTimer->start(1000 / shootingSpeed);
+    shooting = true;
+}
+
+void striker::stopShooting() {
+    shooting=false;
+    shootTimer->stop();
+}
+
+void striker::shoot() {
 
     qDebug() << "Base Agent class does not implement shooting.";
 }
 
 
  EndStrikerAgent:: EndStrikerAgent(const QColor &color, QObject *parent)
-    : Agent(color, parent) {
+    : striker(color, parent) {
      setLevel(1);
  }
 
@@ -156,7 +194,7 @@ EndStrikerAgent::~EndStrikerAgent(){
 
 
  FirstStrickerAgent::FirstStrickerAgent(const QColor &color, QObject *parent)
-    : Agent(color, parent) {
+    : striker(color, parent) {
  }
 
 FirstStrickerAgent::~FirstStrickerAgent() {
@@ -250,7 +288,7 @@ Enemy* FirstStrickerAgent::findClosestEnemy() {
 
 
 RandomStrickerAgent::RandomStrickerAgent(const QColor &color, QObject *parent)
-    : Agent(color, parent) {
+    : striker(color, parent) {
     setLevel(1);
 }
 
@@ -352,7 +390,7 @@ Enemy* RandomStrickerAgent::findClosestEnemy() {
 }
 
 maxHealthstricker::maxHealthstricker(const QColor &color, QObject *parent)
-    : Agent(color, parent) {
+    : striker(color, parent) {
     setLevel(1);
 }
 

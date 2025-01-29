@@ -42,11 +42,15 @@ public:
 
     bool isFrozen;
     bool shooting;
+    int ElexerNL=level*2;
+    const int Maxlevel=5;
 
 
 protected:
 
-    int level;
+    int level=1;
+
+
     QGraphicsTextItem* levelDisplay;
     QColor color;
 
@@ -82,13 +86,14 @@ public:
 
 
 
-
+int ElexerNL=level*2;
 
 
 protected:
      double shootingSpeed=1;
      bool shooting;
-    int level;
+    int level=1;
+
 
     QGraphicsTextItem* levelDisplay;
     QTimer *shootTimer;
@@ -110,9 +115,12 @@ public:
     }
 
      void startWatchingForEnemies(){}
+     int ElexerNL=level*2;
 private:
     double shootingSpeed=1;
     int elixerN=2;
+     int level=1;
+
     Enemy* findClosestEnemy();
 };
 
@@ -130,10 +138,12 @@ public:
         return elixerN;
     }
      void startWatchingForEnemies(){}
+      int ElexerNL=level*2;
 
 private:
       double shootingSpeed=1;
      int elixerN=2;
+       int level=1;
     Enemy* findClosestEnemy();
 };
 
@@ -153,9 +163,11 @@ public:
         return elixerN;
     }
  void startWatchingForEnemies(){}
+     int ElexerNL=level*2;
 private:
     double shootingSpeed=1;
     int elixerN=4;
+     int level=1;
     Enemy* findClosestEnemy();
 };
 
@@ -174,9 +186,11 @@ public:
         return elixerN;
     }
      void startWatchingForEnemies(){}
+     int ElexerNL=level*2;
 private:
       double shootingSpeed=1;
     int elixerN=3;
+       int level=1;
     Enemy* findClosestEnemy();
 };
 
@@ -199,13 +213,14 @@ public:
 
 
      void startWatchingForEnemies(){}
+      int ElexerNL=level*2;
 
 
 
 
 protected:
 
-    int level;
+    int level=1;
     int enemyN;
     std::vector<Enemy *> enemiesInRange;
 
@@ -221,6 +236,7 @@ class Bomb : public Blocker {
 public:
     Bomb(const QColor &color, QObject *parent = nullptr) : Blocker(color, parent), level(1) {}
 
+     int ElexerNL=level*2;
     bool isSameCell(Enemy *enemy) {
         int enemyX = enemy->pos().x() / cellSize;
         int enemyY = enemy->pos().y() / cellSize;
@@ -290,13 +306,14 @@ public:
 private:
     const int cellSize = 80;
     int elixerN=2;
-    int level;
+    int level=1;
 };
 
 class Trap : public Blocker {
 public:
     Trap(const QColor &color, QObject *parent = nullptr) : Blocker(color, parent), level(1) {}
 
+     int ElexerNL=level*2;
 
     int getElixirN() override{
         return elixerN;
@@ -348,7 +365,7 @@ public:
 private:
         const int cellSize = 80;
     int elixerN=2;
-    int level;
+    int level=1;
 };
 
 

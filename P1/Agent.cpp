@@ -60,10 +60,6 @@ striker::striker(const QColor &color, QObject *parent)
     shootTimer = new QTimer(this);
     connect(shootTimer, &QTimer::timeout, this, &striker::shoot);
 
-
-
-
-
 }
 
 

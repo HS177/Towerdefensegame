@@ -25,6 +25,7 @@ GameMap::GameMap(QWidget *parent) : QGraphicsView(parent), scene(new QGraphicsSc
 
     createMap();
     addAgents();
+    addlevels();
 
     resize(cols * cellSize + 600, rows * cellSize + 200);
 
@@ -256,20 +257,60 @@ void GameMap::addAgents() {
             scene->addItem(agent);
             agentsA.append(agent);
         }
+
+    }
+    agentsA.append(new Bomb(Qt::red));
+    agentsA.append(new Trap(Qt::darkCyan));
+}
+
+void GameMap::addlevels() {
+    QColor colors[] = {Qt::blue, Qt::green, Qt::white, Qt::yellow, Qt::red, Qt::darkCyan};
+    QString colorNames[] = {"EndStriker", "MaxHealthStriker", "FirstStriker", "RandomStriker", "Bomb", "Trap"};
+    int colorCount = sizeof(colors) / sizeof(colors[0]);
+
+    levelTexts.clear();
+
+    for (int j = 0; j < colorCount; ++j) {
+
+        QGraphicsRectItem *colorBox = new QGraphicsRectItem();
+        colorBox->setRect(j * cellSize - 3, (rows + 1) * cellSize, cellSize, cellSize);
+        colorBox->setBrush(colors[j]);
+        scene->addItem(colorBox);
+
+
+        int level = 0;
+        if (j < agentsA.size()) {
+            level = agentsA[j]->getLevel();
+        }
+
+
+        QString label = QString("%1\nLevel %2").arg(colorNames[j]).arg(level);
+        QGraphicsTextItem *text = new QGraphicsTextItem(label);
+        text->setDefaultTextColor(Qt::black);
+        text->setFont(QFont("Arial", 10));
+        text->setPos((j) * cellSize, (rows+1.2) * cellSize - 15);
+        scene->addItem(text);
+
+         levelTexts.append(text);
     }
 }
+
+
+
+
+
+
+
 
 void GameMap::mousePressEvent(QMouseEvent *event) {
     QPointF scenePos = mapToScene(event->pos());
     QGraphicsItem *clickedItem = scene->itemAt(scenePos, QTransform());
-
 
     if (striker *clickedAgent = dynamic_cast<striker *>(clickedItem)) {
         if (!selectedstriker) {
             selectedstriker = clickedAgent;
             qDebug() << "Striker selected with color:" << clickedAgent->getColor();
         } else if (selectedstriker != clickedAgent) {
-
             if (typeid(*selectedstriker) == typeid(*clickedAgent)) {
                 auto rectInBoxCells = [this](const QRectF &rect) -> bool {
                     for (QGraphicsRectItem *item : boxCells) {
@@ -280,18 +321,15 @@ void GameMap::mousePressEvent(QMouseEvent *event) {
                     return false;
                 };
 
-
                 if (rectInBoxCells(selectedstriker->rect()) && rectInBoxCells(clickedAgent->rect())) {
                     int newShootingSpeed = (clickedAgent->getShootingSpeed()) * 2;
 
                     clickedAgent->setShootingSpeed(newShootingSpeed);
                     qDebug() << "New Shooting Speed:" << clickedAgent->getShootingSpeed();
 
-
                     QRectF previousRect = selectedstriker->rect();
                     int previousX = previousRect.x() / cellSize;
                     int previousY = previousRect.y() / cellSize;
-
 
                     releaseCell(previousX, previousY);
                     scene->removeItem(selectedstriker);
@@ -318,6 +356,38 @@ void GameMap::mousePressEvent(QMouseEvent *event) {
         }
         return;
     }
+
+
+
+
+    for (int i = 0; i < levelcells.size(); ++i) {
+        QGraphicsRectItem *cell = levelcells[i];
+        if (cell->contains(cell->mapFromScene(scenePos))) {
+            Agent *agent = dynamic_cast<Agent *>(agentsA[i]);
+            if (!agent) {
+                qDebug() << "Agent at index" << i << "is not a striker. Cannot update level.";
+                return;
+            }
+            qDebug() << "Clicked agent with color:" << agent->getColor();
+
+            if (agent->getLevel() < 5 && elixirCounter >= agent->ElexerNL) {
+
+                int newLevel = agent->getLevel() + 1;
+                agent->setLevel(newLevel);
+
+
+                QString updatedLabel = QString("Level %1").arg(newLevel);
+                levelTexts[i]->setPlainText(updatedLabel);
+
+
+                qDebug() << "Agent level updated to:" << agent->getLevel();
+            } else {
+                qDebug() << "Cannot level up. Either max level reached or insufficient elixir.";
+            }
+            return;
+        }
+    }
+
 
 
     if (QGraphicsRectItem *clickedBox = dynamic_cast<QGraphicsRectItem *>(clickedItem)) {
@@ -385,11 +455,6 @@ void GameMap::mousePressEvent(QMouseEvent *event) {
                 qDebug() << "Cell is already occupied!";
             }
         }
-
-
-
-
-
 
         if (!BlockerCells.contains(clickedBox)) {
             qDebug() << "Clicked box is not in BlockerCells.";

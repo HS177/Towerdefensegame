@@ -11,7 +11,7 @@
 #include "Agent.h"
 #include "Enemy.h"
 
-class GameMap : public QGraphicsView {
+class GameMap :public QGraphicsView {
     Q_OBJECT
 
 public:
@@ -20,9 +20,13 @@ public:
     void spawnEnemyWave();
     void initialize();
     void createMap();
+    QList<QGraphicsTextItem *> levelTexts;
 
 protected:
     void mousePressEvent(QMouseEvent *event) ;
+     void mousePressEventForLevel(QMouseEvent *event) ;
+    bool sceneEventFilter(QGraphicsItem *watched, QEvent *event);
+    const QString colorNames[6] = {"EndStriker", "MaxHealthStriker", "FirstStriker", "RandomStriker", "Bomb", "Trap"};
 
 private:
     QGraphicsScene *scene;
@@ -46,6 +50,7 @@ private:
     bool addTexture(QGraphicsRectItem *item, const QString &texturePath);
     QGraphicsRectItem *getCellAt(const QPointF &position);
     void addAgents();
+    void addlevels();
 
     bool isCellOccupied(int x, int y);
     void occupyCell(int x, int y);

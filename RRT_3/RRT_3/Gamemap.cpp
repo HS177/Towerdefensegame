@@ -1,27 +1,40 @@
 #include "Gamemap.h"
-#include <QRandomGenerator>
-#include <QTimer>
-#include <QPixmap>
-#include <QDebug>
-#include <QGraphicsScene>
-#include <QtGui>
-#include <algorithm>
-#include <vector>
-#include <random>
-#include "Agent.h"
-#include "Enemy.h"
 
-GameMap::GameMap(QWidget *parent) : QGraphicsView(parent), scene(new QGraphicsScene(this)) {
+#include <QDebug>
+#include <QPixmap>
+#include <QSet>
+#include <QTransform>
+
+#include <limits>
+
+GameMap::GameMap(QWidget *parent)
+    : QGraphicsView(parent), scene(new QGraphicsScene(this)) {
     setScene(scene);
+
+    tileRoles = QVector<QVector<TileRole>>(rows, QVector<TileRole>(cols, TileRole::Empty));
+
     createMap();
     addAgents();
-    resize(cols * cellSize + 600, rows * cellSize + 200);
-    // Initialize grid to false
+
     for (int i = 0; i < 10; ++i) {
         for (int j = 0; j < 10; ++j) {
             grid[i][j] = false;
         }
     }
+
+    pathPoints_ = buildPathFromGrid();
+
+    waveSpawner = new WaveSpawner(scene, this);
+    waveSpawner->setPath(pathPoints_);
+
+    waves_ = {
+        WaveSpawner::WaveDefinition{4, 1000, {WaveSpawner::EnemyKind::A, WaveSpawner::EnemyKind::B}},
+        WaveSpawner::WaveDefinition{6, 800, {WaveSpawner::EnemyKind::A, WaveSpawner::EnemyKind::B}},
+    };
+    waveSpawner->setWaves(waves_);
+    waveSpawner->setBetweenWavesMs(20000);
+
+    resize(cols * cellSize + 600, rows * cellSize + 200);
 }
 
 void GameMap::createMap() {
@@ -30,28 +43,42 @@ void GameMap::createMap() {
             QGraphicsRectItem *cell = scene->addRect(j * cellSize, i * cellSize, cellSize, cellSize);
             cell->setPen(QPen(Qt::black));
 
-            if (i == 0 || i == rows - 1 || j == 0 || j == cols - 1) {
+            TileRole role = TileRole::Empty;
+            if (i == rows - 1 && j == 0) {
+                role = TileRole::Spawn;
+            } else if (i == rows - 1 && j == cols - 1) {
+                role = TileRole::Exit;
+            } else if (i == 0 || j == 0 || j == cols - 1) {
+                role = TileRole::Path;
+            }
+
+            if (i >= 1 && i <= rows - 1 && j >= 1 && j <= cols - 2) {
+                role = TileRole::Buildable;
+            }
+
+            tileRoles[i][j] = role;
+
+            if (role == TileRole::Buildable) {
+                if (!addTexture(cell, ":/textures/agent_texture.png")) {
+                    cell->setBrush(QBrush(QColor(200, 200, 200)));
+                }
+                boxCells.append(cell);
+            } else if (isPathRole(role)) {
                 if (!addTexture(cell, ":/textures/path_texture.png")) {
                     cell->setBrush(QBrush(QColor(200, 10, 50)));
                 }
             }
 
-            if (i >= 1 && i <= 4 && j >= 1 && j <= 4) {
-                if (!addTexture(cell, ":/textures/agent_texture.png")) {
-                    cell->setBrush(QBrush(QColor(200, 200, 200)));
-                }
-                boxCells.append(cell);
-            }
-
-            if (i == rows - 1 && j == 0) {
+            if (role == TileRole::Spawn) {
                 cell->setBrush(QBrush(QColor(0, 255, 0, 180)));
                 cell->setPen(QPen(QColor(0, 200, 0), 2));
-            } else if (i == rows - 1 && j == cols - 1) {
+            } else if (role == TileRole::Exit) {
                 cell->setBrush(QBrush(QColor(255, 0, 0, 180)));
                 cell->setPen(QPen(QColor(200, 0, 0), 2));
             }
         }
     }
+
     for (int i = rows + 1; i < rows + 2; ++i) {
         for (int j = 1; j < cols - 1; ++j) {
             QGraphicsRectItem *cell = scene->addRect(j * cellSize, i * cellSize, cellSize, cellSize);
@@ -74,36 +101,15 @@ bool GameMap::addTexture(QGraphicsRectItem *item, const QString &texturePath) {
 }
 
 void GameMap::initialize() {
-    QTimer *spawnTimer = new QTimer(this);
-    connect(spawnTimer, &QTimer::timeout, this, &GameMap::spawnEnemy);
-    spawnTimer->start(20000);
+    if (waveSpawner) {
+        waveSpawner->start();
+    }
 }
 
 void GameMap::spawnEnemy() {
-    int totalEnemies = 4;
-    QPointF spawnPosition(20, 350);
-    QPointF targetPosition(500, 200);
-    QTimer *spawnTimer = new QTimer(this);
-    int *enemyCount = new int(0);
-    connect(spawnTimer, &QTimer::timeout, this, [this, spawnTimer, enemyCount, totalEnemies, spawnPosition, targetPosition]() {
-        if (*enemyCount < totalEnemies) {
-            if (rand() % 2) {
-                auto *enemya = new EnemyA(spawnPosition, targetPosition);
-                scene->addItem(enemya);
-                enemya->startMoving(80);
-            } else {
-                auto *enemyb = new EnemyB(spawnPosition, targetPosition);
-                scene->addItem(enemyb);
-                enemyb->startMoving(60);
-            }
-            (*enemyCount)++;
-        } else {
-            spawnTimer->stop();
-            spawnTimer->deleteLater();
-            delete enemyCount;
-        }
-    });
-    spawnTimer->start(1000);
+    if (waveSpawner) {
+        waveSpawner->startNextWaveNow();
+    }
 }
 
 void GameMap::addAgents() {
@@ -126,16 +132,16 @@ void GameMap::mousePressEvent(QMouseEvent *event) {
     QPointF scenePos = mapToScene(event->pos());
     QGraphicsItem *clickedItem = scene->itemAt(scenePos, QTransform());
 
-    if (Agent *clickedAgent = dynamic_cast<Agent*>(clickedItem)) {
+    if (Agent *clickedAgent = dynamic_cast<Agent *>(clickedItem)) {
         selectedAgent = clickedAgent;
         qDebug() << "Agent selected with color:" << clickedAgent->getColor();
         return;
     }
 
-    if (QGraphicsRectItem *clickedBox = dynamic_cast<QGraphicsRectItem*>(clickedItem)) {
+    if (QGraphicsRectItem *clickedBox = dynamic_cast<QGraphicsRectItem *>(clickedItem)) {
         if (boxCells.contains(clickedBox) && selectedAgent) {
-            int x = clickedBox->rect().x() / cellSize;
-            int y = clickedBox->rect().y() / cellSize;
+            const int x = clickedBox->rect().x() / cellSize;
+            const int y = clickedBox->rect().y() / cellSize;
 
             if (!isCellOccupied(x, y)) {
                 clickedBox->setBrush(QBrush(selectedAgent->getColor()));
@@ -177,4 +183,95 @@ QGraphicsRectItem *GameMap::getCellAt(const QPointF &position) {
         }
     }
     return nullptr;
+}
+
+bool GameMap::isPathRole(TileRole role) const {
+    return role == TileRole::Path || role == TileRole::Spawn || role == TileRole::Exit;
+}
+
+QPointF GameMap::cellToPathPoint(int row, int col) const {
+    constexpr qreal enemySize = 40.0;
+    const qreal offset = (cellSize - enemySize) / 2.0;
+    return {col * cellSize + offset, row * cellSize + offset};
+}
+
+QVector<QPointF> GameMap::buildPathFromGrid() const {
+    QPoint spawn(-1, -1);
+    QPoint exit(-1, -1);
+
+    for (int row = 0; row < rows; ++row) {
+        for (int col = 0; col < cols; ++col) {
+            if (tileRoles[row][col] == TileRole::Spawn) {
+                spawn = QPoint(col, row);
+            } else if (tileRoles[row][col] == TileRole::Exit) {
+                exit = QPoint(col, row);
+            }
+        }
+    }
+
+    if (spawn.x() < 0 || exit.x() < 0) {
+        return {};
+    }
+
+    QVector<QPointF> path;
+    QSet<QPoint> visited;
+
+    QPoint current = spawn;
+    QPoint previous(-999, -999);
+
+    auto isValidCell = [&](const QPoint &cell) {
+        return cell.x() >= 0 && cell.x() < cols && cell.y() >= 0 && cell.y() < rows;
+    };
+
+    auto manhattan = [](const QPoint &a, const QPoint &b) {
+        return qAbs(a.x() - b.x()) + qAbs(a.y() - b.y());
+    };
+
+    while (true) {
+        path.append(cellToPathPoint(current.y(), current.x()));
+        if (current == exit) {
+            break;
+        }
+
+        visited.insert(current);
+
+        QVector<QPoint> neighbors;
+        const QVector<QPoint> directions = {QPoint(1, 0), QPoint(-1, 0), QPoint(0, 1), QPoint(0, -1)};
+        for (const QPoint &dir : directions) {
+            const QPoint next = current + dir;
+            if (!isValidCell(next)) {
+                continue;
+            }
+            if (!isPathRole(tileRoles[next.y()][next.x()])) {
+                continue;
+            }
+            if (next == previous) {
+                continue;
+            }
+            neighbors.append(next);
+        }
+
+        QPoint bestNext(-1, -1);
+        int bestDistance = std::numeric_limits<int>::max();
+        for (const QPoint &candidate : neighbors) {
+            if (visited.contains(candidate)) {
+                continue;
+            }
+
+            const int dist = manhattan(candidate, exit);
+            if (dist < bestDistance) {
+                bestDistance = dist;
+                bestNext = candidate;
+            }
+        }
+
+        if (bestNext.x() < 0) {
+            break;
+        }
+
+        previous = current;
+        current = bestNext;
+    }
+
+    return path;
 }

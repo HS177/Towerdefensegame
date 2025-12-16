@@ -1,17 +1,19 @@
-
 #ifndef GAMEMAP_H
 #define GAMEMAP_H
 
-
-#include <QGraphicsView>
-#include <QGraphicsScene>
-#include <QGraphicsRectItem>
-#include <QMouseEvent>
 #include <QBrush>
+#include <QGraphicsRectItem>
+#include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QMouseEvent>
 #include <QPen>
+#include <QPoint>
+#include <QPointF>
 #include <QVector>
+
 #include "Agent.h"
 #include "Enemy.h"
+#include "WaveSpawner.h"
 
 class GameMap : public QGraphicsView {
     Q_OBJECT
@@ -23,19 +25,32 @@ public:
     void initialize();
     void createMap();
 
-
 protected:
     void mousePressEvent(QMouseEvent *event) override;
 
 private:
-    QGraphicsScene *scene;
-    QTimer *spawnTimer;
-    QVector<QGraphicsRectItem*> boxCells;
-    QVector<Agent*> agents;
+    enum class TileRole {
+        Empty,
+        Path,
+        Spawn,
+        Exit,
+        Buildable,
+    };
 
-    QVector<QGraphicsRectItem*> agentCells;
+    QGraphicsScene *scene;
+
+    QVector<QGraphicsRectItem *> boxCells;
+    QVector<Agent *> agents;
+    QVector<QGraphicsRectItem *> agentCells;
+
     QGraphicsRectItem *selectedBox = nullptr;
     Agent *selectedAgent = nullptr;
+
+    QVector<QVector<TileRole>> tileRoles;
+    QVector<QPointF> pathPoints_;
+
+    WaveSpawner *waveSpawner = nullptr;
+    QVector<WaveSpawner::WaveDefinition> waves_;
 
     bool addTexture(QGraphicsRectItem *item, const QString &texturePath);
 
@@ -45,6 +60,10 @@ private:
 
     void addAgents();
     QGraphicsRectItem *getCellAt(const QPointF &position);
+
+    QVector<QPointF> buildPathFromGrid() const;
+    bool isPathRole(TileRole role) const;
+    QPointF cellToPathPoint(int row, int col) const;
 };
 
-#endif
+#endif // GAMEMAP_H

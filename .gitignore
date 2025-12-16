@@ -1,0 +1,18 @@
+# Qt/CMake build artifacts
+**/build/
+**/CMakeFiles/
+**/CMakeCache.txt
+**/cmake_install.cmake
+**/Makefile
+**/*.user
+
+# Generated Qt files
+**/moc_*.cpp
+**/ui_*.h
+**/qrc_*.cpp
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*~
+*.swp

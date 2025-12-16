@@ -1,74 +1,38 @@
-
-
 #ifndef ENEMY_H
 #define ENEMY_H
 
 #include <QObject>
 #include <QGraphicsEllipseItem>
+#include <QPointF>
 #include <QTimer>
-#include <QPropertyAnimation>
-#include <QSequentialAnimationGroup>
+#include <QVector>
 
-
-
-
-class EnemyA : public QObject, public QGraphicsEllipseItem {
+class EnemyBase : public QObject, public QGraphicsEllipseItem {
     Q_OBJECT
 
 public:
-    EnemyA (QPointF start, QPointF end, QObject *parent = nullptr);
+    explicit EnemyBase(const QVector<QPointF> &pathPoints, QObject *parent = nullptr);
 
-
-    void startMoving(double);
+    void startMoving(double speed);
 
 private slots:
     void move();
 
 private:
-    QTimer *timer;
-    QPointF startPoint;
-    QPointF endPoint;
-    int pathIndex;
-    QVector<QPointF> pathPoints;
-    double targetSpeed;
-
-    void setupPath();
+    QTimer timer_;
+    QVector<QPointF> pathPoints_;
+    int pathIndex_ = 0;
+    double targetSpeed_ = 0.0;
 };
 
-
-class EnemyB : public QObject, public QGraphicsEllipseItem {
-    Q_OBJECT
-
+class EnemyA : public EnemyBase {
 public:
-    EnemyB (QPointF start, QPointF end, QObject *parent = nullptr);
-
-
-    void startMoving(double);
-
-private slots:
-    void move();
-
-private:
-    QTimer *timer;
-    QPointF startPoint;
-    QPointF endPoint;
-    int pathIndex;
-    QVector<QPointF> pathPoints;
-    double targetSpeed;
-
-    void setupPath();
+    explicit EnemyA(const QVector<QPointF> &pathPoints, QObject *parent = nullptr);
 };
 
-/*class Agent {
+class EnemyB : public EnemyBase {
 public:
-    // Constructor to initialize the agent with a color
-    Agent(QColor color) : color(color) {}
-
-    // Getter for the color of the agent
-    QColor getColor() const { return color; }
-
-private:
-    QColor color;  // Color of the agent
+    explicit EnemyB(const QVector<QPointF> &pathPoints, QObject *parent = nullptr);
 };
-*/
-#endif
+
+#endif // ENEMY_H

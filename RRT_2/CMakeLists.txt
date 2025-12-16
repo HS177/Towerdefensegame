@@ -28,6 +28,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         main.cpp
         Gamemap.cpp
         Gamemap.h
+        WaveSpawner.cpp
+        WaveSpawner.h
         mainmenu.h
         Agent.cpp
         Agent.h

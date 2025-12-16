@@ -13,17 +13,19 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
-	main.cpp
-	Enemy.h
-	Enemy.cpp
-	Gamemap.h
-	Gamemap.cpp
-	mainmenu.h
-	mainwindow.cpp
-	mainwindow.h
-        Agent.h
-        Agent.cpp
-        mainwindow.ui
+    main.cpp
+    Enemy.h
+    Enemy.cpp
+    Gamemap.h
+    Gamemap.cpp
+    WaveSpawner.h
+    WaveSpawner.cpp
+    mainmenu.h
+    mainwindow.cpp
+    mainwindow.h
+    Agent.h
+    Agent.cpp
+    mainwindow.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

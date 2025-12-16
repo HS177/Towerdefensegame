@@ -11,7 +11,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     gamemap->initialize();
     gamemap->show();
-    gamemap->spawnEnemy();
 
     this->close();
     qDebug("Start Game!");
